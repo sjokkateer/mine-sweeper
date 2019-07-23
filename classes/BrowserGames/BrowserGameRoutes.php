@@ -1,7 +1,6 @@
 <?php
 namespace BrowserGames;
 
-use BrowserGames\Controllers\MineSweeper;
 use Generics\Routes;
 
 class BrowserGameRoutes implements Routes
@@ -27,8 +26,14 @@ class BrowserGameRoutes implements Routes
             case 'minesweeper/home':
             $routes = $this->getRoutes();
             $requestMethod = $_SERVER['REQUEST_METHOD'];
-            $controller = new MineSweeper();
-            $page = $controller->home();
+            $requestedAction = $routes["$route"]["$requestMethod"];
+            
+            $namespace = 'BrowserGames\Controllers\\';
+            $controller =  $namespace . $requestedAction['controller'];
+            $controller = new $controller();
+            $action = $requestedAction['action'];
+            
+            $page = $controller->$action();
             break;
         }
         return $page;
