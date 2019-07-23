@@ -1,7 +1,7 @@
 <?php
 namespace BrowserGames\MineSweeper;
 
-abstract class MineSweeperDifficulty
+abstract class Difficulty
 {
     private $numberOfMines;
     private $rows;

@@ -1,13 +1,11 @@
-<?php
-const SIZE = 6;
-?>
+<?php $game = $_SESSION['game']; ?>
 <table id="mineSweeper">
-    <?php for($i = 0; $i < SIZE; $i++): ?>
+    <?php for($i = 0; $i < $game->getRows(); $i++): ?>
         <tr id="<?= $i ?>">
         
-        <?php for($j = 0; $j < SIZE; $j++): ?>
+        <?php for($j = 0; $j < $game->getColumns(); $j++): ?>
         <td>
-            <form action="result.php" method="POST">
+            <form action="?route=minesweeper/home" method="POST">
                 <input type="hidden" name="row" value="<?= $i ?>">
                 <input type="hidden" name="column" value="<?= $j ?>">
                 <input type="submit" value="">
