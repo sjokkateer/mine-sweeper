@@ -1,5 +1,5 @@
 <?php
-namespace BrowserGames\Controllers;
+namespace BrowserGames\MineSweeper\Controllers;
 
 class MineSweeper
 {

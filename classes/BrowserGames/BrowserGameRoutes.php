@@ -28,7 +28,7 @@ class BrowserGameRoutes implements Routes
             $requestMethod = $_SERVER['REQUEST_METHOD'];
             $requestedAction = $routes["$route"]["$requestMethod"];
             
-            $namespace = 'BrowserGames\Controllers\\';
+            $namespace = 'BrowserGames\MineSweeper\Controllers\\';
             $controller =  $namespace . $requestedAction['controller'];
             $controller = new $controller();
             $action = $requestedAction['action'];
