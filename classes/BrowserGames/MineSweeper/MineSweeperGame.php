@@ -6,12 +6,39 @@ use BrowserGames\MineSweeper\Difficulty;
 class MineSweeperGame
 {
     private $difficulty;
-    private $mines;
+    public $mines;
     private $minesCount;
 
     public function __construct(Difficulty $difficulty)
     {
         $this->difficulty = $difficulty;
+        // Ensure reproducable results for now, remove after debugging.
+        srand(0);
+        $this->initializeMinesArray();
+        $this->generateMines();
+    }
+
+    private function generateMines()
+    {
+        $numberOfMines = $this->difficulty->getNumberOfMines();
+        $maxIndex = $this->difficulty->getRows() - 1;
+        while ($numberOfMines > 0) {
+            $row = rand(0, $maxIndex);
+            $column = rand(0, $maxIndex);
+            if (!$this->mines[$row][$column]) {
+                $this->mines[$row][$column] = true;
+                $numberOfMines--;
+            }
+        }
+    }
+
+    private function initializeMinesArray()
+    {
+        for ($i = 0; $i < $this->getRows(); $i++) {
+            for ($j = 0; $j < $this->getColumns(); $j++) {
+                $this->mines[$i][$j] = false;
+            }
+        }
     }
 
     public function getRows(): int

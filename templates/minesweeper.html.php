@@ -8,7 +8,7 @@
             <form action="?route=minesweeper/home" method="POST">
                 <input type="hidden" name="row" value="<?= $i ?>">
                 <input type="hidden" name="column" value="<?= $j ?>">
-                <input type="submit" value="">
+                <input type="submit" value="<?= $game->mines[$i][$j] ?>">
             </form>
         </td>
         <?php endfor; ?>
