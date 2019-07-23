@@ -3,11 +3,11 @@ namespace BrowserGames;
 
 class MineSweeper
 {
-    private mines;
-    private minesCount;
+    private $mines;
+    private $minesCount;
 
     public function __construct()
     {
-        
+
     }
 }
