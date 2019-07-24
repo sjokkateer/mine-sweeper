@@ -14,6 +14,9 @@ class MineSweeper
         return [
             'title' => 'Easy',
             'template' => 'minesweeper.html.php',
+            'scripts' => [
+                'minesweeper.js',
+            ],
         ];
     }
 

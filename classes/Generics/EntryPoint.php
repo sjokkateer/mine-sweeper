@@ -44,6 +44,7 @@ class EntryPoint
     {
         $page = $this->routes->callAction($this->route);
         $title = $page['title'];
+        $scripts = $page['scripts'] ?? null;
         if (isset($page['variables'])) {
             $output = $this->loadTemplate($page['template'], $page['variables']);
         } else {

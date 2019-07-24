@@ -15,5 +15,10 @@
     <form action="reset.php" method="POST">
         <input type="submit" value="Reset Game">
     </form>
+    <?php if(isset($scripts)): ?>
+        <?php foreach ($scripts as $script): ?>
+            <script src="js/<?= $script ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </body>
 </html>
