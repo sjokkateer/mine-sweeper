@@ -7,6 +7,7 @@ use BrowserGames\MineSweeper\MineSweeperCell;
 class MineSweeperGame
 {
     private $difficulty;
+    private $fatalMine;
     private $gameOver;
     public $mines;
 
@@ -133,8 +134,21 @@ class MineSweeperGame
         $cell->setClicked();
         if ($cell->isMine()) {
             $this->gameOver = true;
+            $this->displayAllMines();
+            $this->fatalMine = $cell;
         } else {
             $this->handleClicksRecursively($cell);
+        }
+    }
+
+    private function displayAllMines()
+    {
+        foreach($this->mines as $row) {
+            foreach($row as $cell) {
+                if ($cell->isMine()) {
+                    $cell->setClicked();
+                }
+            }
         }
     }
 
@@ -171,8 +185,14 @@ class MineSweeperGame
     /**
      * Get the value of gameOver
      */ 
-    public function getGameOver(): bool
+    public function isGameOver(): bool
     {
         return $this->gameOver;
+    }
+
+    public function isFatalMine(int $row, int $column): bool
+    {
+        $fatalMineIndex = $this->fatalMine->getIndex(); 
+        return $fatalMineIndex->getRow() == $row && $fatalMineIndex->getColumn() == $column;
     }
 }
