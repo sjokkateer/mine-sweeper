@@ -1,14 +1,18 @@
 <?php
 namespace BrowserGames\MineSweeper;
 
+use Generics\Index;
+
 class MineSweeperCell
 {
+    private $index;
     private $mine;
     private $minesCount;
     private $neighbors;
 
-    public function __construct()
+    public function __construct(int $row, int $column)
     {
+        $this->index = new Index($row, $column);
         $this->mine = false;
         $this->minesCount = 0;
         $this->neighbors = [];
@@ -50,7 +54,20 @@ class MineSweeperCell
 
     public function __toString(): string
     {
-        $result = "Mine: {$this->mine}";
+        $isMine = $this->mine ? 'IS A' : 'IS NOT A';
+        $result = "$isMine MINE";
+        $result .= "<br />";
+        $result .= "Index: {$this->index}";
+        $result .= '<br />';
+        $result .= '<br />';
         return $result;
+    }
+
+    /**
+     * Get the value of index
+     */ 
+    public function getIndex(): Index
+    {
+        return $this->index;
     }
 }

@@ -16,13 +16,9 @@ class MineSweeperGame
         srand(0);
         $this->mines = $this->initializeGrid();
         $this->generateMines();
-        foreach ($this->mines as $mineSet) {
-            foreach ($mineSet as $mine) {
-                echo $mine;
-            }
-            echo '<br />';
-        }
-        // Call to populate the mineCounts array based on placement of mines.
+        // $this->outputCells();
+        // Set the neighbors of each cell and count the number of adjacent mines to set 
+        // that cell's mine count.
     }
 
     private function generateMines()
@@ -75,7 +71,7 @@ class MineSweeperGame
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
-                $array[$i][$j] = new MineSweeperCell();
+                $array[$i][$j] = new MineSweeperCell($i, $j);
             }
         }
         return $array;
@@ -94,6 +90,16 @@ class MineSweeperGame
     public function getNumberOfMines(): int
     {
         return $this->difficulty->getNumberOfMines();
+    }
+
+    public function outputCells()
+    {
+        foreach ($this->mines as $mines) {
+            foreach($mines as $mine) {
+                echo $mine;
+            }
+            echo '<br />';
+        }
     }
 
     public function __toString(): string

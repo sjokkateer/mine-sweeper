@@ -1,3 +1,11 @@
+form {
+    width: 27px;
+}
+
 .mineSweeperTd {
     cursor: pointer;
+}
+
+.mineSweeperCell {
+    width: 100%;
 }
