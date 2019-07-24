@@ -7,7 +7,7 @@
             <form action="?route=minesweeper/home" method="POST">
                 <input type="hidden" name="row" value="<?= $i ?>">
                 <input type="hidden" name="column" value="<?= $j ?>">
-                <?php if($game->isClicked($i, $j)): ?>
+                <?php if($game->isGameOver() || $game->isClicked($i, $j)): ?>
                     <?php if($game->isGameOver() && $game->isFatalMine($i, $j)): ?>
                         <input style="background: red;" disabled class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
                     <?php else: ?>
