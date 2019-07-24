@@ -57,12 +57,14 @@ class MineSweeperCell
 
     public function __toString(): string
     {
-        $isMine = $this->mine ? 'IS A' : 'IS NOT A';
-        $result = "$isMine MINE";
-        $result .= "<br />";
-        $result .= "Index: {$this->index}";
-        $result .= '<br />';
-        $result .= '<br />';
+        $result = ' ';
+        if ($this->isClicked()) {
+            if ($this->isMine()) {
+                $result = '*';
+            } else if ($this->getMinesCount() > 0) {
+                $result = $this->getMinesCount();
+            }
+        }
         return $result;
     }
 

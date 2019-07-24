@@ -8,9 +8,9 @@
                 <input type="hidden" name="row" value="<?= $i ?>">
                 <input type="hidden" name="column" value="<?= $j ?>">
                 <?php if($game->isClicked($i, $j)): ?>
-                    <input disabled class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j]->getMinesCount() ?>">
+                    <input disabled class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
                 <?php else: ?>
-                    <input class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j]->getMinesCount() ?>">
+                    <input class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
                 <?php endif; ?>
             </form>
         </td>

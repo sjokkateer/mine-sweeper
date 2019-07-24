@@ -7,11 +7,13 @@ use BrowserGames\MineSweeper\MineSweeperCell;
 class MineSweeperGame
 {
     private $difficulty;
+    private $gameOver;
     public $mines;
 
     public function __construct(Difficulty $difficulty)
     {
         $this->difficulty = $difficulty;
+        $this->gameOver = false;
         // Ensure reproducable results for now, remove after debugging.
         srand(0);
         $this->mines = $this->initializeGrid();
@@ -127,7 +129,25 @@ class MineSweeperGame
 
     public function setClicked(int $row, int $column)
     {
-        $this->mines[$row][$column]->setClicked();
+        $cell = $this->mines[$row][$column];
+        $cell->setClicked();
+        if ($cell->isMine()) {
+            $this->gameOver = true;
+        } else {
+            $this->handleClicksRecursively($cell);
+        }
+    }
+
+    private function handleClicksRecursively(MineSweeperCell $cell)
+    {
+        $cell->setClicked();
+        if ($cell->getMinesCount() === 0) {
+            foreach ($cell->getNeighbors() as $neighbor) {
+                if (!$neighbor->isClicked()) {
+                    $this->handleClicksRecursively($neighbor);
+                }
+            }
+        }
     }
 
     public function isClicked(int $row, int $column): bool
@@ -146,5 +166,13 @@ class MineSweeperGame
         $result .= "number of mines: {$this->difficulty->getNumberOfMines()}";
 
         return $result;
+    }
+
+    /**
+     * Get the value of gameOver
+     */ 
+    public function getGameOver(): bool
+    {
+        return $this->gameOver;
     }
 }
