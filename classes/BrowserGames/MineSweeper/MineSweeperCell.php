@@ -50,6 +50,7 @@ class MineSweeperCell
 
     public function __toString(): string
     {
-        return "Mine: {$this->mine}";
+        $result = "Mine: {$this->mine}";
+        return $result;
     }
 }
