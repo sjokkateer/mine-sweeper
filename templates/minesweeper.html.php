@@ -7,11 +7,7 @@
             <form action="?route=minesweeper/home" method="POST">
                 <input type="hidden" name="row" value="<?= $i ?>">
                 <input type="hidden" name="column" value="<?= $j ?>">
-                <?php if ($game->mines[$i][$j]->isMine()): ?>
-                    <input class="mineSweeperCell" type="submit" value="*">
-                <?php else: ?>
-                    <input class="mineSweeperCell" type="submit" value=" ">
-                <?php endif; ?>
+                <input class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j]->getMinesCount() ?>">
             </form>
         </td>
         <?php endfor; ?>

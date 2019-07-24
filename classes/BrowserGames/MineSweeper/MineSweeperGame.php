@@ -16,9 +16,7 @@ class MineSweeperGame
         srand(0);
         $this->mines = $this->initializeGrid();
         $this->generateMines();
-        // $this->outputCells();
-        // Set the neighbors of each cell and count the number of adjacent mines to set 
-        // that cell's mine count.
+        $this->countMinesInNeighborhood();
     }
 
     private function generateMines()
@@ -29,21 +27,46 @@ class MineSweeperGame
             $row = rand(0, $maxIndex);
             $column = rand(0, $maxIndex);
             if (!$this->mines[$row][$column]->isMine()) {
-                $this->mines[$row][$column]->setMine(true);
+                $this->mines[$row][$column]->setMine();
                 $numberOfMines--;
             }
         }
     }
 
-    private function generateMineCounts()
+    private function countMinesInNeighborhood()
     {
-        // For each cell in the grid, calculate the number of 
-        // mines that are in its neighborhood.
+        foreach ($this->mines as $row) {
+            foreach ($row as $cell) {
+                // First add all neighbors of the cell.
+                $this->setNeighbors($cell);
+                // Count how many of the cell's neighbors are mines.
+                $this->countMines($cell);
+            }
+        }
     }
 
-    private function countMinesInNeighBorHood(int $row, int $column)
+    private function countMines(MineSweeperCell $cell)
     {
+        foreach($cell->getNeighbors() as $neighbor) {
+            if ($neighbor->isMine()) {
+                $newCount = $cell->getMinesCount() + 1;
+                $cell->setMinesCount($newCount);
+            }
+        }
+    }
 
+    private function setNeighbors(MineSweeperCell $cell)
+    {
+        for ($i = -1; $i <= 1; $i++) {
+            for ($j = -1; $j <= 1; $j++) {
+                $row = $cell->getIndex()->getRow() + $i;
+                $column = $cell->getIndex()->getColumn() + $j;
+                if ($this->indexInGrid($row, $column)) {
+                    $neighbor = $this->mines[$row][$column];
+                    $cell->addNeighbor($neighbor);
+                }
+            }
+        }
     }
 
     private function indexInGrid(int $row, int $column): bool

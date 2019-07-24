@@ -6,6 +6,7 @@ use Generics\Index;
 class MineSweeperCell
 {
     private $index;
+    private $clicked;
     private $mine;
     private $minesCount;
     private $neighbors;
@@ -13,6 +14,7 @@ class MineSweeperCell
     public function __construct(int $row, int $column)
     {
         $this->index = new Index($row, $column);
+        $this->clicked = false;
         $this->mine = false;
         $this->minesCount = 0;
         $this->neighbors = [];
@@ -34,9 +36,10 @@ class MineSweeperCell
     /**
      * Set the value of mine
      */ 
-    public function setMine(bool $mine)
+    public function setMine()
     {
-        $this->mine = $mine;
+        $this->mine = true;
+        $this->minesCount = 1;
     }
 
     /**
@@ -69,5 +72,29 @@ class MineSweeperCell
     public function getIndex(): Index
     {
         return $this->index;
+    }
+
+    /**
+     * Get the value of clicked
+     */ 
+    public function isClicked()
+    {
+        return $this->clicked;
+    }
+
+    /**
+     * Set the value of clicked
+     */ 
+    public function setClicked(bool $clicked)
+    {
+        $this->clicked = $clicked;
+    }
+
+    /**
+     * Get the value of neighbors
+     */ 
+    public function getNeighbors()
+    {
+        return $this->neighbors;
     }
 }
