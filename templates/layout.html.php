@@ -9,5 +9,11 @@
 </head>
 <body>
     <?= $output ?>
+    <br />
+    <br />
+    <br />
+    <form action="reset.php" method="POST">
+        <input type="submit" value="Reset Game">
+    </form>
 </body>
 </html>

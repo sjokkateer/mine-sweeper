@@ -77,7 +77,7 @@ class MineSweeperCell
     /**
      * Get the value of clicked
      */ 
-    public function isClicked()
+    public function isClicked(): bool
     {
         return $this->clicked;
     }
@@ -85,9 +85,9 @@ class MineSweeperCell
     /**
      * Set the value of clicked
      */ 
-    public function setClicked(bool $clicked)
+    public function setClicked()
     {
-        $this->clicked = $clicked;
+        $this->clicked = true;
     }
 
     /**

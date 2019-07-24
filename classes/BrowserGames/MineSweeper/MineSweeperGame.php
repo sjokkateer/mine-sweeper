@@ -125,6 +125,16 @@ class MineSweeperGame
         }
     }
 
+    public function setClicked(int $row, int $column)
+    {
+        $this->mines[$row][$column]->setClicked();
+    }
+
+    public function isClicked(int $row, int $column): bool
+    {
+        return $this->mines[$row][$column]->isClicked();
+    }
+
     public function __toString(): string
     {
         $result = 'Game of minesweeper';

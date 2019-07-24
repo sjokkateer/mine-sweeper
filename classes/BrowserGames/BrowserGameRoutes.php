@@ -14,7 +14,7 @@ class BrowserGameRoutes implements Routes
             ],
             'POST' => [
                 'controller' => 'MineSweeper',
-                'action' => '',
+                'action' => 'cellClicked',
             ],
         ],
     ];
@@ -33,6 +33,7 @@ class BrowserGameRoutes implements Routes
             $controller = new $controller();
             $action = $requestedAction['action'];
             
+            session_start();
             $page = $controller->$action();
             break;
         }
