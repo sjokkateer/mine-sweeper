@@ -7,15 +7,17 @@ class MineSweeperGame
 {
     private $difficulty;
     public $mines;
-    private $minesCount;
+    public $mineCounts;
 
     public function __construct(Difficulty $difficulty)
     {
         $this->difficulty = $difficulty;
         // Ensure reproducable results for now, remove after debugging.
         srand(0);
-        $this->initializeMinesArray();
+        $this->mines = $this->initializeGrid(false);
         $this->generateMines();
+        $this->mineCounts = $this->initializeGrid(0);
+        // Call to populate the mineCounts array based on placement of mines.
     }
 
     private function generateMines()
@@ -32,13 +34,46 @@ class MineSweeperGame
         }
     }
 
-    private function initializeMinesArray()
+    private function generateMineCounts()
+    {
+        // For each cell in the grid, calculate the number of 
+        // mines that are in its neighborhood.
+    }
+
+    private function countMinesInNeighBorHood(int $row, int $column)
+    {
+
+    }
+
+    private function indexInGrid(int $row, int $column): bool
+    {
+        return $this->rowInGrid($row) && $this->columnInGrid($column);
+    }
+
+    private function columnInGrid(int $column): bool
+    {
+        $minIndex = 0;
+        $maxIndex = $this->difficulty->getColumns() - 1;
+        
+        return $minIndex <= $column && $column <= $maxIndex;
+    }
+
+    private function rowInGrid(int $row): bool
+    {
+        $minIndex = 0;
+        $maxIndex = $this->difficulty->getRows() - 1;
+        
+        return $minIndex <= $row && $row <= $maxIndex;
+    }
+
+    private function initializeGrid($initialValue): array
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
-                $this->mines[$i][$j] = false;
+                $array[$i][$j] = $initialValue;
             }
         }
+        return $array;
     }
 
     public function getRows(): int
