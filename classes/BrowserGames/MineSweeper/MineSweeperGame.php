@@ -155,12 +155,25 @@ class MineSweeperGame
                 $this->handleClicksRecursively($cell);
             }
         }
-        // Should check if the game is won after clicks.
     }
 
-    private function isGameWon(): bool
+    public function isWon(): bool
     {
-        return $this->getFlagCount() == 0;
+        return $this->getFlagCount() == 0 && $this->allMinesFlagged();
+    }
+
+    private function allMinesFlagged(): bool
+    {
+        foreach($this->mines as $row) {
+            foreach ($row as $cell) {
+                if ($cell->isMine()) {
+                    if (!$cell->isFlagged()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public function setFlagged(int $row, int $column, bool $flagged)

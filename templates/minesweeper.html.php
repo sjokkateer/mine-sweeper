@@ -8,6 +8,16 @@
     <div>
         <h3># of Flags Left: <?= $game->getFlagCount() ?></h3>
     </div>
+    <?php if($game->isWon()): ?>
+        <div style="color: green;">
+            <h4>Good Job, You Won!</h4>         
+        </div>
+    <?php endif; ?>
+    <?php if($game->isGameOver()): ?>
+        <div style="color: red;">
+            <h4>You Lost!</h4>      
+        </div>
+    <?php endif; ?>
     <div id="mineSweeperGridDiv">
         <table id="mineSweeper">
             <?php for($i = 0; $i < $game->getRows(); $i++): ?>
