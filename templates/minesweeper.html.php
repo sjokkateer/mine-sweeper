@@ -53,7 +53,7 @@
             <h2>Legend</h2>
             <ul style="list-style-type:none;">
                 <li>* represents a mine</li>
-                <li>- represents a flag</li>
+                <li>- represents a flag <i>(can be added with a right mouse click on a cell)</i></li>
                 <li># represents the number of neighboring mines to that cell</li>
             </ul>
         </div>
