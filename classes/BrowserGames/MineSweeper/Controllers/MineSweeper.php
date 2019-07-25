@@ -28,9 +28,11 @@ class MineSweeper
     public function cellClicked(): array
     {
         $game = $_SESSION['game'];
-        $row = $_POST['row'];
-        $column = $_POST['column'];
-        $game->setClicked($row, $column);
+        if (!$game->isGameOver()) {
+            $row = $_POST['row'];
+            $column = $_POST['column'];
+            $game->setClicked($row, $column);
+        }
         return $this->home();
     }
 
