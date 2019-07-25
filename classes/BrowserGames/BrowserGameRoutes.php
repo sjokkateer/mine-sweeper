@@ -23,6 +23,12 @@ class BrowserGameRoutes implements Routes
                 'action' => 'newGame',
             ],
         ],
+        'minesweeper/setflag' => [
+            'POST' => [
+                'controller' => 'MineSweeper',
+                'action' => 'setFlag',
+            ],
+        ],
     ];
 
     public function callAction(string $route): array
@@ -35,6 +41,11 @@ class BrowserGameRoutes implements Routes
                 $page = $this->handleAction($route, $namespace);
                 break;
             case 'minesweeper/newgame':
+                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                session_start();
+                $page = $this->handleAction($route, $namespace);
+                break;
+            case 'minesweeper/setflag':
                 $namespace = 'BrowserGames\MineSweeper\Controllers\\';
                 session_start();
                 $page = $this->handleAction($route, $namespace);

@@ -31,8 +31,7 @@ class MineSweeper
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];
-            $flagged = $_POST['flagged'];
-            $game->setClicked($row, $column, $flagged);
+            $game->setClicked($row, $column);
         }
         return $this->home();
     }
@@ -40,6 +39,19 @@ class MineSweeper
     public function newGame()
     {
         unset($_SESSION['game']);
+        return $this->home();
+    }
+
+    public function setFlag()
+    {
+        $game = $_SESSION['game'];
+        if (!$game->isGameOver()) {
+            $row = $_POST['row'];
+            $column = $_POST['column'];
+            $flagged = $_POST['flagged'];
+
+            $game->setFlagged($row, $column, $flagged);
+        }
         return $this->home();
     }
 }

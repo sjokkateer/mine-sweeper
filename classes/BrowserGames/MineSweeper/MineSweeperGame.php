@@ -129,12 +129,24 @@ class MineSweeperGame
         }
     }
 
-    public function setClicked(int $row, int $column, bool $flagged)
+    public function getFlagCount(): int
+    {
+        $flagCount = $this->difficulty->getNumberOfMines();
+        foreach ($this->mines as $row) {
+            foreach($row as $cell) {
+                if ($cell->isFlagged()) {
+                    $flagCount--;
+                }
+            }
+        }
+        return $flagCount;
+    }
+
+    public function setClicked(int $row, int $column)
     {
         $cell = $this->mines[$row][$column];
-        $cell->setFlagged($flagged);
-        if(!$cell->isFlagged()) {
-            $cell->setClicked();
+        $cell->setClicked();
+        if (!$cell->isFlagged()) {
             if ($cell->isMine()) {
                 $this->gameOver = true;
                 $this->displayAllMines();
@@ -143,6 +155,12 @@ class MineSweeperGame
                 $this->handleClicksRecursively($cell);
             }
         }
+    }
+
+    public function setFlagged(int $row, int $column, bool $flagged)
+    {
+        $cell = $this->mines[$row][$column];
+        $cell->setFlagged($flagged);
     }
 
     private function displayAllMines()
@@ -159,6 +177,7 @@ class MineSweeperGame
     private function handleClicksRecursively(MineSweeperCell $cell)
     {
         $cell->setClicked();
+        $cell->setFlagged(false);
         if ($cell->getMinesCount() === 0) {
             foreach ($cell->getNeighbors() as $neighbor) {
                 if (!$neighbor->isClicked()) {

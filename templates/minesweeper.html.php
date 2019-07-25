@@ -6,6 +6,9 @@
 <br />
 <div>
     <div>
+        <h3><?= $game->getFlagCount() ?></h3>
+    </div>
+    <div>
         <table id="mineSweeper">
             <?php for($i = 0; $i < $game->getRows(); $i++): ?>
                 <tr id="<?= $i ?>">    

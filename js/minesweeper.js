@@ -7,16 +7,17 @@
         var cells = document.querySelectorAll('.mineSweeperCell');
         cells.forEach((cell) => {
             cell.addEventListener("mousedown", (event) => {
+                var form = cell.parentNode;
                 if (event.which === 3) {
                     if (cell.value == " ") {
                         cell.value = "-";
-                        var form = cell.parentNode;
                         form.flagged.value = "1";
                     } else {
                         cell.value = " ";
-                        var form = cell.parentNode;
                         form.flagged.value = "0";
                     }
+                    form.action = '?route=minesweeper/setflag';
+                    form.submit();
                 }
             })
         });
