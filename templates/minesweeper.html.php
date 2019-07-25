@@ -6,9 +6,9 @@
 <br />
 <div>
     <div>
-        <h3><?= $game->getFlagCount() ?></h3>
+        <h3># of Flags Left: <?= $game->getFlagCount() ?></h3>
     </div>
-    <div>
+    <div id="mineSweeperGridDiv">
         <table id="mineSweeper">
             <?php for($i = 0; $i < $game->getRows(); $i++): ?>
                 <tr id="<?= $i ?>">    
@@ -38,7 +38,14 @@
             <?php endfor; ?>
         </table>
     </div>
-    <div>
-        <h2>Legend</h2>
+    <div id="legendDiv">
+        <div style="margin-left: 20px;">
+            <h2>Legend</h2>
+            <ul style="list-style-type:none;">
+                <li>* represents a mine</li>
+                <li>- represents a flag</li>
+                <li># represents the number of neighboring mines to that cell</li>
+            </ul>
+        </div>
     </div>
 </div>

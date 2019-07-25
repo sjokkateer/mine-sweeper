@@ -145,8 +145,8 @@ class MineSweeperGame
     public function setClicked(int $row, int $column)
     {
         $cell = $this->mines[$row][$column];
-        $cell->setClicked();
         if (!$cell->isFlagged()) {
+            $cell->setClicked();
             if ($cell->isMine()) {
                 $this->gameOver = true;
                 $this->displayAllMines();
@@ -155,12 +155,29 @@ class MineSweeperGame
                 $this->handleClicksRecursively($cell);
             }
         }
+        // Should check if the game is won after clicks.
+    }
+
+    private function isGameWon(): bool
+    {
+        return $this->getFlagCount() == 0;
     }
 
     public function setFlagged(int $row, int $column, bool $flagged)
     {
         $cell = $this->mines[$row][$column];
-        $cell->setFlagged($flagged);
+        switch($flagged) {
+            case true:
+                if ($this->getFlagCount() > 0) {
+                    $cell->setFlagged($flagged);
+                }
+                break;
+            case false:
+                $cell->setFlagged($flagged);
+                break;
+        }
+        // same as clicked, should check if the game is won after the final
+        // mine would be flagged or so.
     }
 
     private function displayAllMines()

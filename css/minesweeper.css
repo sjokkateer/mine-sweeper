@@ -2,6 +2,18 @@ form {
     width: 27px;
 }
 
+h3 {
+    color: maroon;
+}
+
+#mineSweeperGridDiv {
+    float: left;
+}
+
+#legendDiv {
+    float: left;
+}
+
 .mineSweeperTd {
     cursor: pointer;
 }
