@@ -25,10 +25,11 @@ class MineSweeperGame
     private function generateMines()
     {
         $numberOfMines = $this->difficulty->getNumberOfMines();
-        $maxIndex = $this->difficulty->getRows() - 1;
+        $maxRowIndex = $this->difficulty->getRows() - 1;
+        $maxColumnIndex = $this->difficulty->getColumns() - 1;
         while ($numberOfMines > 0) {
-            $row = rand(0, $maxIndex);
-            $column = rand(0, $maxIndex);
+            $row = rand(0, $maxRowIndex);
+            $column = rand(0, $maxColumnIndex);
             if (!$this->mines[$row][$column]->isMine()) {
                 $this->mines[$row][$column]->setMine();
                 $numberOfMines--;
@@ -60,10 +61,12 @@ class MineSweeperGame
 
     private function setNeighbors(MineSweeperCell $cell)
     {
+        $rowIndex = $cell->getIndex()->getRow();
+        $columnIndex = $cell->getIndex()->getColumn();
         for ($i = -1; $i <= 1; $i++) {
             for ($j = -1; $j <= 1; $j++) {
-                $row = $cell->getIndex()->getRow() + $i;
-                $column = $cell->getIndex()->getColumn() + $j;
+                $row = $rowIndex + $i;
+                $column =  $columnIndex + $j;
                 if ($this->indexInGrid($row, $column)) {
                     $neighbor = $this->mines[$row][$column];
                     $cell->addNeighbor($neighbor);

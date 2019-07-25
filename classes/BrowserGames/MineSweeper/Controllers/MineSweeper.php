@@ -12,7 +12,7 @@ class MineSweeper
             $_SESSION['game'] = new MineSweeperGame(new DifficultyEasy());
         }
         return [
-            'title' => 'Easy',
+            'title' => 'Intermediate',
             'template' => 'minesweeper.html.php',
             'scripts' => [
                 'minesweeper.js',
