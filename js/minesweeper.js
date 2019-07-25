@@ -10,16 +10,16 @@
                 if (event.which === 3) {
                     if (cell.value == " ") {
                         cell.value = "-";
+                        var form = cell.parentNode;
+                        form.flagged.value = "1";
                     } else {
                         cell.value = " ";
+                        var form = cell.parentNode;
+                        form.flagged.value = "0";
                     }
                 }
             })
         });
-    }
-
-    function nope() {
-        return false;
     }
 
     function preventRightClicksOnTable() {

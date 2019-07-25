@@ -14,14 +14,19 @@
                     <form action="?route=minesweeper/home" method="POST">
                         <input type="hidden" name="row" value="<?= $i ?>">
                         <input type="hidden" name="column" value="<?= $j ?>">
+                        <input type="hidden" name="flagged" value="<?= $game->getCell($i, $j)->isFlagged() ?>">
                         <?php if($game->isGameOver() || $game->isClicked($i, $j)): ?>
                             <?php if($game->isGameOver() && $game->isFatalMine($i, $j)): ?>
-                                <input style="background: red;" disabled class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
+                                <input style="background: red;" disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
                             <?php else: ?>
-                                <input disabled class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
+                                <input disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
                             <?php endif; ?>
                         <?php else: ?>
-                            <input class="mineSweeperCell" type="submit" value="<?= $game->mines[$i][$j] ?>">
+                            <?php if($game->getCell($i, $j)->isFlagged()): ?>
+                                <input class="mineSweeperCell" type="submit" value="-">
+                            <?php else: ?>
+                                <input class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
+                            <?php endif; ?>    
                         <?php endif; ?>
                     </form>
                 </td>

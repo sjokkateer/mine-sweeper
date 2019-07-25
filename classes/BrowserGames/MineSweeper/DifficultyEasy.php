@@ -7,7 +7,7 @@ class DifficultyEasy extends Difficulty
 {
     public function __construct()
     {
-        parent::__construct(10, 8, 8);
+        parent::__construct(10, 9, 9);
     }
 
     public function __toString(): string

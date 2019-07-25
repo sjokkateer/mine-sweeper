@@ -31,7 +31,8 @@ class MineSweeper
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];
-            $game->setClicked($row, $column);
+            $flagged = $_POST['flagged'];
+            $game->setClicked($row, $column, $flagged);
         }
         return $this->home();
     }

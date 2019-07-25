@@ -9,7 +9,7 @@ class MineSweeperGame
     private $difficulty;
     private $fatalMine;
     private $gameOver;
-    public $mines;
+    private $mines;
 
     public function __construct(Difficulty $difficulty)
     {
@@ -41,9 +41,7 @@ class MineSweeperGame
     {
         foreach ($this->mines as $row) {
             foreach ($row as $cell) {
-                // First add all neighbors of the cell.
                 $this->setNeighbors($cell);
-                // Count how many of the cell's neighbors are mines.
                 $this->countMines($cell);
             }
         }
@@ -131,16 +129,19 @@ class MineSweeperGame
         }
     }
 
-    public function setClicked(int $row, int $column)
+    public function setClicked(int $row, int $column, bool $flagged)
     {
         $cell = $this->mines[$row][$column];
-        $cell->setClicked();
-        if ($cell->isMine()) {
-            $this->gameOver = true;
-            $this->displayAllMines();
-            $this->fatalMine = $cell;
-        } else {
-            $this->handleClicksRecursively($cell);
+        $cell->setFlagged($flagged);
+        if(!$cell->isFlagged()) {
+            $cell->setClicked();
+            if ($cell->isMine()) {
+                $this->gameOver = true;
+                $this->displayAllMines();
+                $this->fatalMine = $cell;
+            } else {
+                $this->handleClicksRecursively($cell);
+            }
         }
     }
 
@@ -197,5 +198,21 @@ class MineSweeperGame
     {
         $fatalMineIndex = $this->fatalMine->getIndex(); 
         return $fatalMineIndex->getRow() == $row && $fatalMineIndex->getColumn() == $column;
+    }
+
+    /**
+     * Get the value of mines
+     */ 
+    public function getMines(): array
+    {
+        return $this->mines;
+    }
+
+    /**
+     * Get the cell at $row index, $column index in the mines array
+     */ 
+    public function getCell(int $row, int $column): MineSweeperCell
+    {
+        return $this->mines[$row][$column];
     }
 }

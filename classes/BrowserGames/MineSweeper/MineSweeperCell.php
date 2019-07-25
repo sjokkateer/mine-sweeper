@@ -7,6 +7,7 @@ class MineSweeperCell
 {
     private $index;
     private $clicked;
+    private $flagged;
     private $mine;
     private $minesCount;
     private $neighbors;
@@ -15,6 +16,7 @@ class MineSweeperCell
     {
         $this->index = new Index($row, $column);
         $this->clicked = false;
+        $this->flagged = false;
         $this->mine = false;
         $this->minesCount = 0;
         $this->neighbors = [];
@@ -98,5 +100,21 @@ class MineSweeperCell
     public function getNeighbors()
     {
         return $this->neighbors;
+    }
+
+    /**
+     * Get the value of flagged
+     */ 
+    public function isFlagged()
+    {
+        return $this->flagged;
+    }
+
+    /**
+     * Set the value of flagged
+     */ 
+    public function setFlagged(bool $flagged)
+    {
+        $this->flagged = $flagged;
     }
 }
