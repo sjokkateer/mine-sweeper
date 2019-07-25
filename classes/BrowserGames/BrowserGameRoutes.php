@@ -17,6 +17,12 @@ class BrowserGameRoutes implements Routes
                 'action' => 'cellClicked',
             ],
         ],
+        'minesweeper/newgame' => [
+            'POST' => [
+                'controller' => 'MineSweeper',
+                'action' => 'newGame',
+            ],
+        ],
     ];
 
     public function callAction(string $route): array
@@ -24,18 +30,15 @@ class BrowserGameRoutes implements Routes
         $page = [];
         switch($route) {
             case 'minesweeper/home':
-            $routes = $this->getRoutes();
-            $requestMethod = $_SERVER['REQUEST_METHOD'];
-            $requestedAction = $routes["$route"]["$requestMethod"];
-            
-            $namespace = 'BrowserGames\MineSweeper\Controllers\\';
-            $controller =  $namespace . $requestedAction['controller'];
-            $controller = new $controller();
-            $action = $requestedAction['action'];
-            
-            session_start();
-            $page = $controller->$action();
-            break;
+                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                session_start();
+                $page = $this->handleAction($route, $namespace);
+                break;
+            case 'minesweeper/newgame':
+                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                session_start();
+                $page = $this->handleAction($route, $namespace);
+                break;
         }
         return $page;
     }
@@ -48,5 +51,16 @@ class BrowserGameRoutes implements Routes
     public function getRoutes(): array
     {
         return self::ROUTES;
+    }
+
+    private function handleAction(string $route, string $namespace)
+    {
+        $routes = $this->getRoutes();
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        $requestedAction = $routes["$route"]["$requestMethod"];
+        $controller =  $namespace . $requestedAction['controller'];
+        $controller = new $controller();
+        $action = $requestedAction['action'];
+        return $controller->$action();
     }
 }

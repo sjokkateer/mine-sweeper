@@ -40,16 +40,23 @@ class EntryPoint
         return ob_get_clean();
     }
 
+    private function loadTemplateFromVariable($page, string $variable, string $templateFile)
+    {
+        if (isset($page[$variable])) {
+            return $this->loadTemplate($templateFile, $page[$variable]);
+        } else {
+            return $this->loadTemplate($templateFile);
+        }
+    }
+
     public function run()
     {
         $page = $this->routes->callAction($this->route);
-        $title = $page['title'];
-        $scripts = $page['scripts'] ?? null;
-        if (isset($page['variables'])) {
-            $output = $this->loadTemplate($page['template'], $page['variables']);
-        } else {
-            $output = $this->loadTemplate($page['template']);
-        }
+
+        $header = $this->loadTemplateFromVariable($page, 'variables', 'header.html.php');
+        $output = $this->loadTemplateFromVariable($page, 'variables', $page['template']);
+        $footer = $this->loadTemplateFromVariable($page, 'variables', 'footer.html.php');
+
         include __DIR__ . '/../../templates/layout.html.php';
     }
 }

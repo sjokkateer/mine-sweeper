@@ -12,10 +12,15 @@ class MineSweeper
             $_SESSION['game'] = new MineSweeperGame(new DifficultyEasy());
         }
         return [
-            'title' => 'Intermediate',
             'template' => 'minesweeper.html.php',
-            'scripts' => [
-                'minesweeper.js',
+            'variables' => [
+                'title' => 'Minesweeper Easy',
+                'styleSheets' => [
+                    'minesweeper.css'
+                ],
+                'scripts' => [
+                    'minesweeper.js',
+                ],
             ],
         ];
     }
@@ -26,6 +31,12 @@ class MineSweeper
         $row = $_POST['row'];
         $column = $_POST['column'];
         $game->setClicked($row, $column);
+        return $this->home();
+    }
+
+    public function newGame()
+    {
+        unset($_SESSION['game']);
         return $this->home();
     }
 }
