@@ -40,7 +40,7 @@ class EntryPoint
         return ob_get_clean();
     }
 
-    private function loadTemplateFromVariable($page, string $variable, string $templateFile)
+    private function loadTemplateFromVariable($page, string $templateFile, string $variable = 'variables')
     {
         if (isset($page[$variable])) {
             return $this->loadTemplate($templateFile, $page[$variable]);
@@ -53,9 +53,9 @@ class EntryPoint
     {
         $page = $this->routes->callAction($this->route);
 
-        $header = $this->loadTemplateFromVariable($page, 'variables', 'header.html.php');
-        $output = $this->loadTemplateFromVariable($page, 'variables', $page['template']);
-        $footer = $this->loadTemplateFromVariable($page, 'variables', 'footer.html.php');
+        $header = $this->loadTemplateFromVariable($page, 'header.html.php');
+        $output = $this->loadTemplateFromVariable($page, $page['template']);
+        $footer = $this->loadTemplateFromVariable($page, 'footer.html.php');
 
         include __DIR__ . '/../../templates/layout.html.php';
     }
