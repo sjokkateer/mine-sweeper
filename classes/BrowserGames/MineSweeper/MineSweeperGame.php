@@ -16,7 +16,7 @@ class MineSweeperGame
         $this->difficulty = $difficulty;
         $this->gameOver = false;
         // Ensure reproducable results for now, remove after debugging.
-        srand(0);
+        // srand(0);
         $this->mines = $this->initializeGrid();
         $this->generateMines();
         $this->countMinesInNeighborhood();
