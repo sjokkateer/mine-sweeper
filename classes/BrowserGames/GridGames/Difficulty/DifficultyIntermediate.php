@@ -1,9 +1,9 @@
 <?php
-namespace BrowserGames\MineSweeper;
+namespace BrowserGames\GridGames\Difficulty;
 
-use BrowserGames\MineSweeper\Difficulty;
+use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
-class DifficultyIntermediate extends Difficulty
+class DifficultyIntermediate extends GridGameDifficulty
 {
     public function __construct()
     {

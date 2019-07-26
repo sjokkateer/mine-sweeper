@@ -1,17 +1,17 @@
 <?php
-namespace BrowserGames\MineSweeper;
+namespace BrowserGames\GridGames\Minesweeper;
 
-use BrowserGames\MineSweeper\Difficulty;
-use BrowserGames\MineSweeper\MineSweeperCell;
+use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
+use BrowserGames\GridGames\Minesweeper\MinesweeperCell;
 
-class MineSweeperGame
+class MinesweeperGame
 {
     private $difficulty;
     private $fatalMine;
     private $gameOver;
     private $mines;
 
-    public function __construct(Difficulty $difficulty)
+    public function __construct(GridGameDifficulty $difficulty)
     {
         $this->difficulty = $difficulty;
         $this->gameOver = false;
@@ -24,7 +24,7 @@ class MineSweeperGame
 
     private function generateMines()
     {
-        $numberOfMines = $this->difficulty->getNumberOfMines();
+        $numberOfMines = $this->difficulty->getNumberOfDefaultValues();
         $maxRowIndex = $this->difficulty->getRows() - 1;
         $maxColumnIndex = $this->difficulty->getColumns() - 1;
         while ($numberOfMines > 0) {
@@ -47,7 +47,7 @@ class MineSweeperGame
         }
     }
 
-    private function countMines(MineSweeperCell $cell)
+    private function countMines(MinesweeperCell $cell)
     {
         foreach($cell->getNeighbors() as $neighbor) {
             if ($neighbor->isMine()) {
@@ -57,7 +57,7 @@ class MineSweeperGame
         }
     }
 
-    private function setNeighbors(MineSweeperCell $cell)
+    private function setNeighbors(MinesweeperCell $cell)
     {
         $rowIndex = $cell->getIndex()->getRow();
         $columnIndex = $cell->getIndex()->getColumn();
@@ -98,7 +98,7 @@ class MineSweeperGame
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
-                $array[$i][$j] = new MineSweeperCell($i, $j);
+                $array[$i][$j] = new MinesweeperCell($i, $j);
             }
         }
         return $array;
@@ -116,7 +116,7 @@ class MineSweeperGame
 
     public function getNumberOfMines(): int
     {
-        return $this->difficulty->getNumberOfMines();
+        return $this->difficulty->getNumberOfDefaultValues();
     }
 
     public function outputCells()
@@ -131,7 +131,7 @@ class MineSweeperGame
 
     public function getFlagCount(): int
     {
-        $flagCount = $this->difficulty->getNumberOfMines();
+        $flagCount = $this->difficulty->getNumberOfDefaultValues();
         foreach ($this->mines as $row) {
             foreach($row as $cell) {
                 if ($cell->isFlagged()) {
@@ -230,7 +230,7 @@ class MineSweeperGame
         $result .= "<br />";
         $result .= "rows: {$this->getRows()} columns: {$this->getColumns()}";
         $result .= "<br />";
-        $result .= "number of mines: {$this->difficulty->getNumberOfMines()}";
+        $result .= "number of mines: {$this->difficulty->getNumberOfDefaultValues()}";
 
         return $result;
     }
@@ -260,7 +260,7 @@ class MineSweeperGame
     /**
      * Get the cell at $row index, $column index in the mines array
      */ 
-    public function getCell(int $row, int $column): MineSweeperCell
+    public function getCell(int $row, int $column): MinesweeperCell
     {
         return $this->mines[$row][$column];
     }

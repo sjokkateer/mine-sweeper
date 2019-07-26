@@ -1,15 +1,15 @@
 <?php
-namespace BrowserGames\MineSweeper\Controllers;
+namespace BrowserGames\GridGames\Minesweeper\Controllers;
 
-use BrowserGames\MineSweeper\MineSweeperGame;
-use BrowserGames\MineSweeper\DifficultyEasy;
+use BrowserGames\GridGames\Minesweeper\MinesweeperGame;
+use BrowserGames\GridGames\Difficulty\GridGameDifficultyEasy;
 
-class MineSweeper
+class Minesweeper
 {
     public function home(): array
     {
-        if (!isset($_SESSION['game'])) {
-            $_SESSION['game'] = new MineSweeperGame(new DifficultyEasy());
+        if (!isset($_SESSION['minesweeper'])) {
+            $_SESSION['minesweeper'] = new MinesweeperGame(new GridGameDifficultyEasy(10, 9, 9));
         }
         return [
             'template' => 'minesweeper.html.php',
@@ -27,7 +27,7 @@ class MineSweeper
 
     public function cellClicked(): array
     {
-        $game = $_SESSION['game'];
+        $game = $_SESSION['minesweeper'];
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];
@@ -38,13 +38,13 @@ class MineSweeper
 
     public function newGame()
     {
-        unset($_SESSION['game']);
+        unset($_SESSION['minesweeper']);
         return $this->home();
     }
 
     public function setFlag()
     {
-        $game = $_SESSION['game'];
+        $game = $_SESSION['minesweeper'];
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];

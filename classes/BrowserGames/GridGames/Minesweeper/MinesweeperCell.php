@@ -1,9 +1,9 @@
 <?php
-namespace BrowserGames\MineSweeper;
+namespace BrowserGames\GridGames\Minesweeper;
 
 use Generics\Index;
 
-class MineSweeperCell
+class MinesweeperCell
 {
     private $index;
     private $clicked;
@@ -52,7 +52,7 @@ class MineSweeperCell
         $this->minesCount = $minesCount;
     }
 
-    public function addNeighbor(MineSweeperCell $cell)
+    public function addNeighbor(MinesweeperCell $cell)
     {
         $this->neighbors[] = $cell;
     }

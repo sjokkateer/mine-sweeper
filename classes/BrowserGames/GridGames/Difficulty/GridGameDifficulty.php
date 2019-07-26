@@ -1,25 +1,25 @@
 <?php
-namespace BrowserGames\MineSweeper;
+namespace BrowserGames\GridGames\Difficulty;
 
-abstract class Difficulty
+abstract class GridGameDifficulty
 {
-    private $numberOfMines;
+    private $numberOfDefaultValues;
     private $rows;
     private $columns;
 
-    public function __construct(int $numberOfMines, int $rows, int $columns)
+    public function __construct(int $numberOfDefaultValues, int $rows, int $columns)
     {
-        $this->numberOfMines = $numberOfMines;
+        $this->numberOfDefaultValues = $numberOfDefaultValues;
         $this->rows = $rows;
         $this->columns = $columns;
     }
 
     /**
-     * Get the value of numberOfMines
+     * Get the value of numberOfDefaultValues
      */ 
-    public function getNumberOfMines(): int
+    public function getNumberOfDefaultValues(): int
     {
-        return $this->numberOfMines;
+        return $this->numberOfDefaultValues;
     }
 
     /**

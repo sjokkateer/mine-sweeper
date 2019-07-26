@@ -5,27 +5,27 @@ use Generics\Routes;
 
 class BrowserGameRoutes implements Routes
 {
-    private const HOME = "?route=minesweeper/home";
+    private const HOME ='?route=sudoku/home';
     private const ROUTES = [
         'minesweeper/home' => [
             'GET' => [
-                'controller' => 'MineSweeper',
+                'controller' => 'Minesweeper',
                 'action' => 'home',
             ],
             'POST' => [
-                'controller' => 'MineSweeper',
+                'controller' => 'Minesweeper',
                 'action' => 'cellClicked',
             ],
         ],
         'minesweeper/newgame' => [
             'POST' => [
-                'controller' => 'MineSweeper',
+                'controller' => 'Minesweeper',
                 'action' => 'newGame',
             ],
         ],
         'minesweeper/setflag' => [
             'POST' => [
-                'controller' => 'MineSweeper',
+                'controller' => 'Minesweeper',
                 'action' => 'setFlag',
             ],
         ],
@@ -36,17 +36,22 @@ class BrowserGameRoutes implements Routes
         $page = [];
         switch($route) {
             case 'minesweeper/home':
-                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                $namespace = 'BrowserGames\GridGames\Minesweeper\Controllers\\';
                 session_start();
                 $page = $this->handleAction($route, $namespace);
                 break;
             case 'minesweeper/newgame':
-                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                $namespace = 'BrowserGames\GridGames\Minesweeper\Controllers\\';
                 session_start();
                 $page = $this->handleAction($route, $namespace);
                 break;
             case 'minesweeper/setflag':
-                $namespace = 'BrowserGames\MineSweeper\Controllers\\';
+                $namespace = 'BrowserGames\GridGames\Minesweeper\Controllers\\';
+                session_start();
+                $page = $this->handleAction($route, $namespace);
+                break;
+            case '?route=sudoku/home':
+                $namespace = 'BrowserGames\GridGames\Sudoku\Controllers\\';
                 session_start();
                 $page = $this->handleAction($route, $namespace);
                 break;

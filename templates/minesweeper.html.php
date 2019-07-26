@@ -1,4 +1,4 @@
-<?php $game = $_SESSION['game']; ?>
+<?php $game = $_SESSION['minesweeper']; ?>
 <form action="?route=minesweeper/newgame" method="POST">
     <input type="submit" value="New Game">
 </form>
