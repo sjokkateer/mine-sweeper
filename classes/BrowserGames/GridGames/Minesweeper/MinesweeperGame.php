@@ -1,23 +1,22 @@
 <?php
 namespace BrowserGames\GridGames\Minesweeper;
 
+use BrowserGames\GridGames\GridGame;
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 use BrowserGames\GridGames\Minesweeper\MinesweeperCell;
 
-class MinesweeperGame
+class MinesweeperGame extends GridGame
 {
-    private $difficulty;
     private $fatalMine;
     private $gameOver;
-    private $mines;
 
     public function __construct(GridGameDifficulty $difficulty)
     {
-        $this->difficulty = $difficulty;
+        parent::__construct($difficulty);
+        $this->grid = $this->initializeGrid();
         $this->gameOver = false;
         // Ensure reproducable results for now, remove after debugging.
         // srand(0);
-        $this->mines = $this->initializeGrid();
         $this->generateMines();
         $this->countMinesInNeighborhood();
     }
@@ -30,8 +29,8 @@ class MinesweeperGame
         while ($numberOfMines > 0) {
             $row = rand(0, $maxRowIndex);
             $column = rand(0, $maxColumnIndex);
-            if (!$this->mines[$row][$column]->isMine()) {
-                $this->mines[$row][$column]->setMine();
+            if (!$this->grid[$row][$column]->isMine()) {
+                $this->grid[$row][$column]->setMine();
                 $numberOfMines--;
             }
         }
@@ -39,7 +38,7 @@ class MinesweeperGame
 
     private function countMinesInNeighborhood()
     {
-        foreach ($this->mines as $row) {
+        foreach ($this->grid as $row) {
             foreach ($row as $cell) {
                 $this->setNeighbors($cell);
                 $this->countMines($cell);
@@ -66,7 +65,7 @@ class MinesweeperGame
                 $row = $rowIndex + $i;
                 $column =  $columnIndex + $j;
                 if ($this->indexInGrid($row, $column)) {
-                    $neighbor = $this->mines[$row][$column];
+                    $neighbor = $this->grid[$row][$column];
                     $cell->addNeighbor($neighbor);
                 }
             }
@@ -121,9 +120,9 @@ class MinesweeperGame
 
     public function outputCells()
     {
-        foreach ($this->mines as $mines) {
-            foreach($mines as $mine) {
-                echo $mine;
+        foreach ($this->grid as $row) {
+            foreach($row as $cell) {
+                echo $cell;
             }
             echo '<br />';
         }
@@ -132,7 +131,7 @@ class MinesweeperGame
     public function getFlagCount(): int
     {
         $flagCount = $this->difficulty->getNumberOfDefaultValues();
-        foreach ($this->mines as $row) {
+        foreach ($this->grid as $row) {
             foreach($row as $cell) {
                 if ($cell->isFlagged()) {
                     $flagCount--;
@@ -144,7 +143,7 @@ class MinesweeperGame
 
     public function setClicked(int $row, int $column)
     {
-        $cell = $this->mines[$row][$column];
+        $cell = $this->grid[$row][$column];
         if (!$cell->isFlagged()) {
             $cell->setClicked();
             if ($cell->isMine()) {
@@ -164,7 +163,7 @@ class MinesweeperGame
 
     private function allMinesFlagged(): bool
     {
-        foreach($this->mines as $row) {
+        foreach($this->grid as $row) {
             foreach ($row as $cell) {
                 if ($cell->isMine()) {
                     if (!$cell->isFlagged()) {
@@ -178,7 +177,7 @@ class MinesweeperGame
 
     public function setFlagged(int $row, int $column, bool $flagged)
     {
-        $cell = $this->mines[$row][$column];
+        $cell = $this->grid[$row][$column];
         switch($flagged) {
             case true:
                 if ($this->getFlagCount() > 0) {
@@ -189,13 +188,11 @@ class MinesweeperGame
                 $cell->setFlagged($flagged);
                 break;
         }
-        // same as clicked, should check if the game is won after the final
-        // mine would be flagged or so.
     }
 
     private function displayAllMines()
     {
-        foreach($this->mines as $row) {
+        foreach($this->grid as $row) {
             foreach($row as $cell) {
                 if ($cell->isMine()) {
                     $cell->setClicked();
@@ -219,7 +216,7 @@ class MinesweeperGame
 
     public function isClicked(int $row, int $column): bool
     {
-        return $this->mines[$row][$column]->isClicked();
+        return $this->grid[$row][$column]->isClicked();
     }
 
     public function __toString(): string
@@ -254,7 +251,7 @@ class MinesweeperGame
      */ 
     public function getMines(): array
     {
-        return $this->mines;
+        return $this->grid;
     }
 
     /**
@@ -262,6 +259,6 @@ class MinesweeperGame
      */ 
     public function getCell(int $row, int $column): MinesweeperCell
     {
-        return $this->mines[$row][$column];
+        return $this->grid[$row][$column];
     }
 }

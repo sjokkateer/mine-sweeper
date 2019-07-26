@@ -18,7 +18,7 @@ class MinesweeperCell
         $this->clicked = false;
         $this->flagged = false;
         $this->mine = false;
-        $this->minesCount = 0;
+        $this->gridCount = 0;
         $this->neighbors = [];
     }
 
@@ -32,7 +32,7 @@ class MinesweeperCell
      */ 
     public function getMinesCount(): int
     {
-        return $this->minesCount;
+        return $this->gridCount;
     }
 
     /**
@@ -41,7 +41,7 @@ class MinesweeperCell
     public function setMine()
     {
         $this->mine = true;
-        $this->minesCount = 1;
+        $this->gridCount = 1;
     }
 
     /**
@@ -49,7 +49,7 @@ class MinesweeperCell
      */ 
     public function setMinesCount(int $minesCount)
     {
-        $this->minesCount = $minesCount;
+        $this->gridCount = $minesCount;
     }
 
     public function addNeighbor(MinesweeperCell $cell)
