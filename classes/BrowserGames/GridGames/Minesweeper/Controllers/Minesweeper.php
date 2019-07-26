@@ -2,19 +2,19 @@
 namespace BrowserGames\GridGames\Minesweeper\Controllers;
 
 use BrowserGames\GridGames\Minesweeper\MinesweeperGame;
-use BrowserGames\GridGames\Difficulty\GridGameDifficultyEasy;
+use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
 class Minesweeper
 {
     public function home(): array
     {
         if (!isset($_SESSION['minesweeper'])) {
-            $_SESSION['minesweeper'] = new MinesweeperGame(new GridGameDifficultyEasy(10, 9, 9));
+            $_SESSION['minesweeper'] = new MinesweeperGame(new GridGameDifficulty('Easy', 10, 9, 9));
         }
         return [
             'template' => 'minesweeper.html.php',
             'variables' => [
-                'title' => 'Minesweeper Easy',
+                'title' => "Minesweeper {$_SESSION['minesweeper']->getDifficulty()}",
                 'styleSheets' => [
                     'minesweeper.css'
                 ],

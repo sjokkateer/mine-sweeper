@@ -21,6 +21,11 @@ class MinesweeperGame extends GridGame
         $this->countMinesInNeighborhood();
     }
 
+    public function getDifficulty(): GridGameDifficulty
+    {
+        return $this->difficulty;
+    }
+
     private function generateMines()
     {
         $numberOfMines = $this->difficulty->getNumberOfDefaultValues();

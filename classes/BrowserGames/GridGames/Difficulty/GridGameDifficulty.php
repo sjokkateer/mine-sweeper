@@ -1,14 +1,16 @@
 <?php
 namespace BrowserGames\GridGames\Difficulty;
 
-abstract class GridGameDifficulty
+class GridGameDifficulty
 {
+    private $name;
     private $numberOfDefaultValues;
     private $rows;
     private $columns;
 
-    public function __construct(int $numberOfDefaultValues, int $rows, int $columns)
+    public function __construct(string $name, int $numberOfDefaultValues, int $rows, int $columns)
     {
+        $this->name = $name;
         $this->numberOfDefaultValues = $numberOfDefaultValues;
         $this->rows = $rows;
         $this->columns = $columns;
@@ -36,5 +38,10 @@ abstract class GridGameDifficulty
     public function getColumns(): int
     {
         return $this->columns;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
