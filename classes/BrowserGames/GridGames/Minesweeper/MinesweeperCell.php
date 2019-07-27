@@ -7,22 +7,20 @@ class MinesweeperCell extends Cell
 {
     private $clicked;
     private $flagged;
-    private $mine;
     private $neighbors;
 
     public function __construct(int $row, int $column)
     {
-        parent::__construct($row, $column);
+        parent::__construct($row, $column, false);
         $this->clicked = false;
         $this->flagged = false;
-        $this->mine = false;
         $this->gridCount = 0;
         $this->neighbors = [];
     }
 
-    public function isMine(): bool
+    public function isMine()
     {
-        return $this->mine;
+        return $this->value;
     }
 
     /**
@@ -34,11 +32,11 @@ class MinesweeperCell extends Cell
     }
 
     /**
-     * Set the value of mine
+     * Set the value of value to true
      */ 
     public function setMine()
     {
-        $this->mine = true;
+        $this->value = true;
         $this->gridCount = 1;
     }
 

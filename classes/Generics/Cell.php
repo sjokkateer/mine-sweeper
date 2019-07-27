@@ -6,10 +6,12 @@ use Generics\Index;
 abstract class Cell
 {
     private $index;
+    protected $value;
 
-    public function __construct(int $row, int $column)
+    public function __construct(int $row, int $column, $value)
     {
         $this->index = new Index($row, $column);
+        $this->value = $value;
     }
 
     /**
