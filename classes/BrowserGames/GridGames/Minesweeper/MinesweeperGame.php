@@ -10,9 +10,9 @@ class MinesweeperGame extends AbstractGridGame
     private $fatalMine;
     private $gameOver;
 
-    public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
+    public function __construct(GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        parent::__construct($name, $difficulty, $rows, $columns);
+        parent::__construct('Minesweeper', $difficulty, $rows, $columns);
         $this->gameOver = false;
         $this->generateMines();
         $this->countMinesInNeighborhood();

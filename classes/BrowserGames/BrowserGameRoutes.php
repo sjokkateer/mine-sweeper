@@ -29,6 +29,16 @@ class BrowserGameRoutes implements Routes
                 'action' => 'setFlag',
             ],
         ],
+        'sudoku/home' => [
+            'GET' => [
+                'controller' => 'Sudoku',
+                'action' => 'home',
+            ],
+            'POST' => [
+                'controller' => 'Sudoku',
+                'action' => 'checkSolution',
+            ],
+        ],
     ];
 
     public function callAction(string $route): array
@@ -50,7 +60,7 @@ class BrowserGameRoutes implements Routes
                 session_start();
                 $page = $this->handleAction($route, $namespace);
                 break;
-            case '?route=sudoku/home':
+            case 'sudoku/home':
                 $namespace = 'BrowserGames\GridGames\Sudoku\Controllers\\';
                 session_start();
                 $page = $this->handleAction($route, $namespace);
