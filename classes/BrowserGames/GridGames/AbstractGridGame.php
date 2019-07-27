@@ -44,5 +44,10 @@ abstract class AbstractGridGame extends AbstractGame
         return $this->grid[$row][$column];
     }
 
+    public function getValue(int $row, int $column)
+    {
+        return $this->getCell($row, $column)->getValue();
+    }
+
     abstract protected function initializeGrid(): array;
 }

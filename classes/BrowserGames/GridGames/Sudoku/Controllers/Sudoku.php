@@ -6,22 +6,30 @@ use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
 class Sudoku
 {
+    private const GAME_NAME = 'sudoku';
+
     public function home()
     {
-        if (!isset($_SESSION['sudokuGame'])) {
-            $_SESSION['sudokuGame'] = new SudokuGame(new GridGameDifficulty('Easy', 32));
+        if (!isset($_SESSION[self::GAME_NAME])) {
+            $_SESSION[self::GAME_NAME] = new SudokuGame(new GridGameDifficulty('Easy', 32));
         }
         return [
-            'template' => 'sudoku.html.php',
+            'template' => self::GAME_NAME . '.html.php',
             'variables' => [
-                'title' => 'Sudoku Easy',
-                // 'styleSheets' => [
-                //     ''
-                // ],
-                // 'scripts' => [
-                //     '',
-                // ],
+                'title' => $_SESSION[self::GAME_NAME],
+                'styleSheets' => [
+                    self::GAME_NAME . '.css',
+                ],
+                'scripts' => [
+                    '',
+                ],
             ],
         ]; 
+    }
+
+    public function checkSolution()
+    {
+        
+
     }
 }

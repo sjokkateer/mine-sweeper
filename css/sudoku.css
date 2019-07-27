@@ -1,0 +1,23 @@
+input[type=number] {
+    width:30px;
+    text-align: center;
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.border_bottom td {
+    border-bottom: 2pt solid black;
+  }
+
+  .border_right {
+    border-right: 2pt solid black;
+  }

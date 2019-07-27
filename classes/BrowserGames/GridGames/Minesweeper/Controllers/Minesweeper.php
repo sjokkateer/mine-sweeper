@@ -6,20 +6,22 @@ use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
 class Minesweeper
 {
+    private const GAME_NAME = 'minesweeper';
+
     public function home(): array
     {
-        if (!isset($_SESSION['minesweeper'])) {
-            $_SESSION['minesweeper'] = new MinesweeperGame(new GridGameDifficulty('Easy', 10),  9, 9);
+        if (!isset($_SESSION[self::GAME_NAME])) {
+            $_SESSION[self::GAME_NAME] = new MinesweeperGame(new GridGameDifficulty('Easy', 10),  9, 9);
         }
         return [
-            'template' => 'minesweeper.html.php',
+            'template' => self::GAME_NAME . '.html.php',
             'variables' => [
-                'title' => "Minesweeper {$_SESSION['minesweeper']->getDifficulty()}",
+                'title' => "Minesweeper {$_SESSION[self::GAME_NAME]->getDifficulty()}",
                 'styleSheets' => [
-                    'minesweeper.css'
+                    self::GAME_NAME . '.css',
                 ],
                 'scripts' => [
-                    'minesweeper.js',
+                    self::GAME_NAME. '.js',
                 ],
             ],
         ];

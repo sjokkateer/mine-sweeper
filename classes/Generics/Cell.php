@@ -36,4 +36,12 @@ abstract class Cell
     {
         return "[{$this->row}, {$this->column}]";
     }
+
+    /**
+     * Get the value of value
+     */ 
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
