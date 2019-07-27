@@ -15,14 +15,6 @@ abstract class Cell
 
         $this->value = $value;
     }
-
-    /**
-     * Get the value of index
-     */ 
-    public function getIndex(): Index
-    {
-        return $this->index;
-    }
     
     /**
      * Get the value of row
