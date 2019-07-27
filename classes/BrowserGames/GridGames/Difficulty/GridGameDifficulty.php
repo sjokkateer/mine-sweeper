@@ -1,14 +1,15 @@
 <?php
 namespace BrowserGames\GridGames\Difficulty;
 
-class GridGameDifficulty
+use Generics\Difficulty;
+
+class GridGameDifficulty extends Difficulty
 {
-    private $name;
     private $numberOfDefaultValues;
 
     public function __construct(string $name, int $numberOfDefaultValues)
     {
-        $this->name = $name;
+        parent::__construct($name);
         $this->numberOfDefaultValues = $numberOfDefaultValues;
     }
 
@@ -18,10 +19,5 @@ class GridGameDifficulty
     public function getNumberOfDefaultValues(): int
     {
         return $this->numberOfDefaultValues;
-    }
-
-    public function __toString(): string
-    {
-        return $this->name;
     }
 }

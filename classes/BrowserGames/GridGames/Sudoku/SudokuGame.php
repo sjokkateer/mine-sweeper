@@ -6,8 +6,8 @@ use BrowserGames\GridGames\AbstractGridGame;
 
 class SudokuGame extends AbstractGridGame
 {
-    public function __construct(GridGameDifficulty $difficulty)
+    public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        parent::__construct($difficulty);
+        parent::__construct($name, $difficulty, $rows, $columns);
     }
 }

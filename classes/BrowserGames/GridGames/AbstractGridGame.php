@@ -5,25 +5,25 @@ use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
 use Generics\Cell;
 use Generics\AbstractGame;
+use Generics\Difficulty;
 
 abstract class AbstractGridGame extends AbstractGame
 {
-    private $difficulty;
     protected $grid;
     private $rows;
     private $columns;
 
-    public function __construct(GridGameDifficulty $difficulty, int $rows, int $columns)
+    public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        $this->difficulty = $difficulty;
+        parent::__construct($name, $difficulty);
         $this->rows = $rows;
         $this->columns = $columns;
         $this->grid = $this->initializeGrid();
     }
 
-    public function getDifficulty(): GridGameDifficulty
+    public function getDifficulty(): Difficulty
     {
-        return $this->difficulty;
+        return parent::getDifficulty();
     }
 
     public function getRows(): int
@@ -34,11 +34,6 @@ abstract class AbstractGridGame extends AbstractGame
     public function getColumns(): int
     {
         return $this->columns;
-    }
-
-    public function getNumberOfDefaultValues(): int
-    {
-        return $this->difficulty->getNumberOfDefaultValues();
     }
 
     /**

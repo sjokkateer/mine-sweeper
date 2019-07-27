@@ -10,9 +10,9 @@ class MinesweeperGame extends AbstractGridGame
     private $fatalMine;
     private $gameOver;
 
-    public function __construct(GridGameDifficulty $difficulty, int $rows, int $columns)
+    public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        parent::__construct($difficulty, $rows, $columns);
+        parent::__construct($name, $difficulty, $rows, $columns);
         $this->gameOver = false;
         $this->generateMines();
         $this->countMinesInNeighborhood();
@@ -202,19 +202,6 @@ class MinesweeperGame extends AbstractGridGame
         return $this->grid[$row][$column]->isClicked();
     }
 
-    public function __toString(): string
-    {
-        $result = 'Game of minesweeper';
-        $result .= '<br />';
-        $result .= "difficulty: {$this->getDifficulty()}";
-        $result .= "<br />";
-        $result .= "rows: {$this->getRows()} columns: {$this->getColumns()}";
-        $result .= "<br />";
-        $result .= "number of mines: {$this->getDifficulty()->getNumberOfDefaultValues()}";
-
-        return $result;
-    }
-
     /**
      * Get the value of gameOver
      */ 
@@ -227,13 +214,5 @@ class MinesweeperGame extends AbstractGridGame
     {
         $fatalMineIndex = $this->fatalMine->getIndex(); 
         return $fatalMineIndex->getRow() == $row && $fatalMineIndex->getColumn() == $column;
-    }
-
-    /**
-     * Get the value of mines
-     */ 
-    public function getMines(): array
-    {
-        return $this->grid;
     }
 }

@@ -9,7 +9,7 @@ class Minesweeper
     public function home(): array
     {
         if (!isset($_SESSION['minesweeper'])) {
-            $_SESSION['minesweeper'] = new MinesweeperGame(new GridGameDifficulty('Easy', 10),  9, 9);
+            $_SESSION['minesweeper'] = new MinesweeperGame('Minesweeper', new GridGameDifficulty('Easy', 10),  9, 9);
         }
         return [
             'template' => 'minesweeper.html.php',
