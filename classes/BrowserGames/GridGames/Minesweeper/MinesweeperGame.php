@@ -56,8 +56,8 @@ class MinesweeperGame extends AbstractGridGame
 
     private function setNeighbors(MinesweeperCell $cell)
     {
-        $rowIndex = $cell->getIndex()->getRow();
-        $columnIndex = $cell->getIndex()->getColumn();
+        $rowIndex = $cell->getRow();
+        $columnIndex = $cell->getColumn();
         for ($i = -1; $i <= 1; $i++) {
             for ($j = -1; $j <= 1; $j++) {
                 $row = $rowIndex + $i;
@@ -139,6 +139,12 @@ class MinesweeperGame extends AbstractGridGame
         }
     }
 
+    public function isFlagged(int $row, int $column)
+    {
+        $cell = $this->getCell($row, $column);
+        return $cell->isFlagged();
+    }
+
     public function isWon(): bool
     {
         return $this->getFlagCount() == 0 && $this->allMinesFlagged();
@@ -212,7 +218,6 @@ class MinesweeperGame extends AbstractGridGame
 
     public function isFatalMine(int $row, int $column): bool
     {
-        $fatalMineIndex = $this->fatalMine->getIndex(); 
-        return $fatalMineIndex->getRow() == $row && $fatalMineIndex->getColumn() == $column;
+        return $this->fatalMine->getRow() == $row && $this->fatalMine->getColumn() == $column;
     }
 }

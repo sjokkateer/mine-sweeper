@@ -22,6 +22,16 @@ abstract class Cell
         return $this->index;
     }
 
+    public function getRow(): int
+    {
+        return $this->index->getRow();
+    }
+
+    public function getColumn(): int
+    {
+        return $this->index->getColumn();
+    }
+
     public function __toString()
     {
         return $this->index->__toString();
