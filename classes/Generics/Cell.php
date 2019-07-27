@@ -1,16 +1,18 @@
 <?php
 namespace Generics;
 
-use Generics\Index;
-
 abstract class Cell
 {
-    private $index;
+    private $row;
+    private $column;
+
     protected $value;
 
     public function __construct(int $row, int $column, $value)
     {
-        $this->index = new Index($row, $column);
+        $this->row = $row;
+        $this->column = $column;
+
         $this->value = $value;
     }
 
@@ -21,19 +23,25 @@ abstract class Cell
     {
         return $this->index;
     }
-
+    
+    /**
+     * Get the value of row
+     */ 
     public function getRow(): int
     {
-        return $this->index->getRow();
+        return $this->row;
     }
 
+    /**
+     * Get the value of column
+     */ 
     public function getColumn(): int
     {
-        return $this->index->getColumn();
+        return $this->column;
     }
 
     public function __toString()
     {
-        return $this->index->__toString();
+        return "[{$this->row}, {$this->column}]";
     }
 }
