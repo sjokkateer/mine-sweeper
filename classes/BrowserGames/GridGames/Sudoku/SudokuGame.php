@@ -1,9 +1,13 @@
 <?php
 namespace BrowserGames\Sudoku;
 
-use Generics\Difficulty;
+use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
+use BrowserGames\GridGames\AbstractGridGame;
 
-class SudokuGame
+class SudokuGame extends AbstractGridGame
 {
-    public function __construct()
+    public function __construct(GridGameDifficulty $difficulty)
+    {
+        parent::__construct($difficulty);
+    }
 }

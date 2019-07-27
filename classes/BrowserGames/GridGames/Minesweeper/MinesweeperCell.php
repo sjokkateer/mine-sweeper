@@ -1,20 +1,18 @@
 <?php
 namespace BrowserGames\GridGames\Minesweeper;
 
-use Generics\Index;
+use Generics\Cell;
 
-class MinesweeperCell
+class MinesweeperCell extends Cell
 {
-    private $index;
     private $clicked;
     private $flagged;
     private $mine;
-    private $minesCount;
     private $neighbors;
 
     public function __construct(int $row, int $column)
     {
-        $this->index = new Index($row, $column);
+        parent::__construct($row, $column);
         $this->clicked = false;
         $this->flagged = false;
         $this->mine = false;
@@ -68,14 +66,6 @@ class MinesweeperCell
             }
         }
         return $result;
-    }
-
-    /**
-     * Get the value of index
-     */ 
-    public function getIndex(): Index
-    {
-        return $this->index;
     }
 
     /**

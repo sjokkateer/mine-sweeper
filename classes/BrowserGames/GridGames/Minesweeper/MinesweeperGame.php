@@ -1,36 +1,29 @@
 <?php
 namespace BrowserGames\GridGames\Minesweeper;
 
-use BrowserGames\GridGames\GridGame;
+use BrowserGames\GridGames\AbstractGridGame;
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 use BrowserGames\GridGames\Minesweeper\MinesweeperCell;
 
-class MinesweeperGame extends GridGame
+class MinesweeperGame extends AbstractGridGame
 {
     private $fatalMine;
     private $gameOver;
 
-    public function __construct(GridGameDifficulty $difficulty)
+    public function __construct(GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        parent::__construct($difficulty);
-        $this->grid = $this->initializeGrid();
+        parent::__construct($difficulty, $rows, $columns);
         $this->gameOver = false;
-        // Ensure reproducable results for now, remove after debugging.
-        // srand(0);
         $this->generateMines();
         $this->countMinesInNeighborhood();
     }
 
-    public function getDifficulty(): GridGameDifficulty
-    {
-        return $this->difficulty;
-    }
-
     private function generateMines()
     {
-        $numberOfMines = $this->difficulty->getNumberOfDefaultValues();
-        $maxRowIndex = $this->difficulty->getRows() - 1;
-        $maxColumnIndex = $this->difficulty->getColumns() - 1;
+        $difficulty = $this->getDifficulty();
+        $numberOfMines = $difficulty->getNumberOfDefaultValues();
+        $maxRowIndex = $this->getRows() - 1;
+        $maxColumnIndex = $this->getColumns() - 1;
         while ($numberOfMines > 0) {
             $row = rand(0, $maxRowIndex);
             $column = rand(0, $maxColumnIndex);
@@ -77,28 +70,7 @@ class MinesweeperGame extends GridGame
         }
     }
 
-    private function indexInGrid(int $row, int $column): bool
-    {
-        return $this->rowInGrid($row) && $this->columnInGrid($column);
-    }
-
-    private function columnInGrid(int $column): bool
-    {
-        $minIndex = 0;
-        $maxIndex = $this->difficulty->getColumns() - 1;
-        
-        return $minIndex <= $column && $column <= $maxIndex;
-    }
-
-    private function rowInGrid(int $row): bool
-    {
-        $minIndex = 0;
-        $maxIndex = $this->difficulty->getRows() - 1;
-        
-        return $minIndex <= $row && $row <= $maxIndex;
-    }
-
-    private function initializeGrid(): array
+    protected function initializeGrid(): array
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
@@ -108,19 +80,25 @@ class MinesweeperGame extends GridGame
         return $array;
     }
 
-    public function getRows(): int
+    private function indexInGrid(int $row, int $column): bool
     {
-        return $this->difficulty->getRows();
+        return $this->rowInGrid($row) && $this->columnInGrid($column);
     }
 
-    public function getColumns(): int
+    private function columnInGrid(int $column): bool
     {
-        return $this->difficulty->getColumns();
+        $minIndex = 0;
+        $maxIndex = $this->getColumns() - 1;
+        
+        return $minIndex <= $column && $column <= $maxIndex;
     }
 
-    public function getNumberOfMines(): int
+    private function rowInGrid(int $row): bool
     {
-        return $this->difficulty->getNumberOfDefaultValues();
+        $minIndex = 0;
+        $maxIndex = $this->getRows() - 1;
+        
+        return $minIndex <= $row && $row <= $maxIndex;
     }
 
     public function outputCells()
@@ -135,7 +113,7 @@ class MinesweeperGame extends GridGame
 
     public function getFlagCount(): int
     {
-        $flagCount = $this->difficulty->getNumberOfDefaultValues();
+        $flagCount = $this->getDifficulty()->getNumberOfDefaultValues();
         foreach ($this->grid as $row) {
             foreach($row as $cell) {
                 if ($cell->isFlagged()) {
@@ -228,11 +206,11 @@ class MinesweeperGame extends GridGame
     {
         $result = 'Game of minesweeper';
         $result .= '<br />';
-        $result .= "difficulty: {$this->difficulty}";
+        $result .= "difficulty: {$this->getDifficulty()}";
         $result .= "<br />";
         $result .= "rows: {$this->getRows()} columns: {$this->getColumns()}";
         $result .= "<br />";
-        $result .= "number of mines: {$this->difficulty->getNumberOfDefaultValues()}";
+        $result .= "number of mines: {$this->getDifficulty()->getNumberOfDefaultValues()}";
 
         return $result;
     }
@@ -257,13 +235,5 @@ class MinesweeperGame extends GridGame
     public function getMines(): array
     {
         return $this->grid;
-    }
-
-    /**
-     * Get the cell at $row index, $column index in the mines array
-     */ 
-    public function getCell(int $row, int $column): MinesweeperCell
-    {
-        return $this->grid[$row][$column];
     }
 }

@@ -30,6 +30,6 @@ class Index
 
     public function __toString()
     {
-        return "r: {$this->row} c: {$this->column}";
+        return "[{$this->row}, {$this->column}]";
     }
 }
