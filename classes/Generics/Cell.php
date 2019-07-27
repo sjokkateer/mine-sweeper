@@ -6,7 +6,7 @@ abstract class Cell
     private $row;
     private $column;
 
-    protected $value;
+    private $value;
 
     public function __construct(int $row, int $column, $value)
     {
@@ -43,5 +43,13 @@ abstract class Cell
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set the value of value
+     */ 
+    public function setValue($value)
+    {
+        $this->value = $value;
     }
 }

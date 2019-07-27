@@ -21,11 +21,6 @@ abstract class AbstractGridGame extends AbstractGame
         $this->grid = $this->initializeGrid();
     }
 
-    public function getDifficulty(): Difficulty
-    {
-        return parent::getDifficulty();
-    }
-
     public function getRows(): int
     {
         return $this->rows;

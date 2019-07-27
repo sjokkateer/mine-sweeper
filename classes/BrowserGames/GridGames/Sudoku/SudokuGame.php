@@ -10,7 +10,7 @@ class SudokuGame extends AbstractGridGame
     public function __construct(GridGameDifficulty $difficulty, int $rows = 9, int $columns = 9)
     {
         parent::__construct('Sudoku', $difficulty, $rows, $columns);
-        // $this->generateNumbers();
+        $this->generateNumbers();
     }
 
     protected function initializeGrid(): array
@@ -21,6 +21,20 @@ class SudokuGame extends AbstractGridGame
             }
         }
         return $array;
+    }
+
+    private function generateNumbers()
+    {
+        $maxRowIndex = $this->getRows() - 1;
+        $maxColumnIndex = $this->getColumns() - 1;
+        $randomValuesGenerated = $this->getDifficulty()->getNumberOfDefaultValues();
+        while ($randomValuesGenerated > 0) {
+            $row = rand(0, $maxRowIndex);
+            $column = rand(0, $maxColumnIndex);
+            if ()
+
+            $randomValuesGenerated--;
+        }
     }
 
     public function isWon(): bool

@@ -20,7 +20,7 @@ class MinesweeperCell extends Cell
 
     public function isMine()
     {
-        return $this->value;
+        return $this->getValue();
     }
 
     /**
@@ -36,7 +36,7 @@ class MinesweeperCell extends Cell
      */ 
     public function setMine()
     {
-        $this->value = true;
+        $this->setValue(true);
         $this->gridCount = 1;
     }
 
