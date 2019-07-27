@@ -32,7 +32,7 @@ abstract class AbstractGridGame extends AbstractGame
     }
 
     /**
-     * Get the cell at $row index, $column index in the mines array
+     * Get the cell at $row index, $column index in the grid
      */ 
     public function getCell(int $row, int $column): Cell
     {

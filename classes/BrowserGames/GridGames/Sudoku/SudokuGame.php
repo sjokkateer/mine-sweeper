@@ -31,10 +31,26 @@ class SudokuGame extends AbstractGridGame
         while ($randomValuesGenerated > 0) {
             $row = rand(0, $maxRowIndex);
             $column = rand(0, $maxColumnIndex);
-            if ()
-
-            $randomValuesGenerated--;
+            $cell = $this->getCell($row, $column);
+            if (!$cell->isInitialized()) {
+                do {
+                    $generatedValue = rand(1, 9);
+                } while (!$this->valueIsAllowed($cell, $generatedValue));
+                $cell->setValue($generatedValue);
+                $cell->initialize();
+                $randomValuesGenerated--;
+            }
         }
+    }
+
+    public function valueIsAllowed($cell, $value)
+    {
+        $row = $cell->getRow();
+        $column = $cell->getColumn();
+
+        return $this->valueIsAllowedInRow() &&
+                    $this->valueIsAllowedInColumn() &&
+                        $this->valueIsAllowedInQuadrant();
     }
 
     public function isWon(): bool

@@ -5,14 +5,12 @@ abstract class Cell
 {
     private $row;
     private $column;
-
     private $value;
 
     public function __construct(int $row, int $column, $value)
     {
         $this->row = $row;
         $this->column = $column;
-
         $this->value = $value;
     }
     
