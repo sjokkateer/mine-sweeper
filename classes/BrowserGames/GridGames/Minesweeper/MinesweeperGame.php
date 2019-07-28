@@ -70,14 +70,14 @@ class MinesweeperGame extends AbstractGridGame
         }
     }
 
-    protected function initializeGrid(): array
+    protected function initializeGrid()
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
-                $array[$i][$j] = new MinesweeperCell($i, $j);
+                $cell = new MinesweeperCell($i, $j);
+                $this->setCell($i, $j, $cell);
             }
         }
-        return $array;
     }
 
     private function indexInGrid(int $row, int $column): bool

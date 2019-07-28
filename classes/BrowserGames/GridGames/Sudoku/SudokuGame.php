@@ -5,8 +5,12 @@ use BrowserGames\GridGames\AbstractGridGame;
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 use BrowserGames\GridGames\Sudoku\SudokuCell;
 
+use Generics\Index;
+
 class SudokuGame extends AbstractGridGame
 {
+    private $quadrant;
+
     public function __construct(GridGameDifficulty $difficulty, int $rows = 9, int $columns = 9)
     {
         parent::__construct('Sudoku', $difficulty, $rows, $columns);
@@ -14,14 +18,24 @@ class SudokuGame extends AbstractGridGame
         $this->generateNumbers();
     }
 
-    protected function initializeGrid(): array
+    protected function initializeGrid()
     {
         for ($i = 0; $i < $this->getRows(); $i++) {
             for ($j = 0; $j < $this->getColumns(); $j++) {
-                $array[$i][$j] = new SudokuCell($i, $j);
+                $cell = new SudokuCell($i, $j);
+                $this->setCell($i, $j, $cell);
+                $this->determineQuadrant($cell);
             }
         }
-        return $array;
+    }
+
+    private function determineQuadrant(SudokuCell $cell)
+    {
+        $quadrantRow = intdiv($cell->getRow() + 1, 3);
+        $quadrantColumn = intdiv($cell->getColumn() + 1, 3);
+        $quadrantIndex = new Index($quadrantRow, $quadrantColumn);
+        $cell->setQuadrantIndex($quadrantIndex);
+        $quadrant[$quadrantRow][$quadrantColumn][] = $cell;
     }
 
     private function generateNumbers()
@@ -77,14 +91,8 @@ class SudokuGame extends AbstractGridGame
     {
         // Determine the quadrant.
         // Iterate over all cells in the quadrant except for the cell itself.
-
-        return true;
     }
 
-    private function determineQuadrant(int $row, int $column): int
-    {
-
-    }
 
     public function setValue(int $row, int $column, int $value)
     {

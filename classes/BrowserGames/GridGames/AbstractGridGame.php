@@ -9,16 +9,18 @@ use Generics\Difficulty;
 
 abstract class AbstractGridGame extends AbstractGame
 {
+    private $columns;
     protected $grid;
     private $rows;
-    private $columns;
 
     public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
     {
         parent::__construct($name, $difficulty);
+
         $this->rows = $rows;
         $this->columns = $columns;
-        $this->grid = $this->initializeGrid();
+        
+        $this->initializeGrid();
     }
 
     public function getRows(): int
@@ -34,9 +36,14 @@ abstract class AbstractGridGame extends AbstractGame
     /**
      * Get the cell at $row index, $column index in the grid
      */ 
-    public function getCell(int $row, int $column): Cell
+    public function getCell(int $row, int $column)
     {
         return $this->grid[$row][$column];
+    }
+
+    public function setCell(int $row, int $column, Cell $cell)
+    {
+        $this->grid[$row][$column] = $cell;
     }
 
     public function getValue(int $row, int $column)
@@ -44,5 +51,5 @@ abstract class AbstractGridGame extends AbstractGame
         return $this->getCell($row, $column)->getValue();
     }
 
-    abstract protected function initializeGrid(): array;
+    abstract protected function initializeGrid();
 }

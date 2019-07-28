@@ -2,10 +2,12 @@
 namespace BrowserGames\GridGames\Sudoku;
 
 use Generics\Cell;
+use Generics\Index;
 
 class SudokuCell extends Cell
 {
     private $initalized;
+    private $quadrant;
 
     public function __construct(int $row, int $column)
     {
@@ -17,8 +19,6 @@ class SudokuCell extends Cell
     {
         if ($value >= 1 && $value <= 9) {
             parent::setValue($value);
-        } else {
-            throw new Exception('Value must be >= 1 and <= 9');
         }
     }
 
@@ -30,5 +30,21 @@ class SudokuCell extends Cell
     public function isInitialized()
     {
         return $this->initalized;
+    }
+
+    /**
+     * Set the value of quadrant
+     */ 
+    public function setQuadrantIndex(Index $quadrant)
+    {
+        $this->quadrant = $quadrant;
+    }
+
+    /**
+     * Get the value of quadrant
+     */ 
+    public function getQuadrant(): Index
+    {
+        return $this->quadrant;
     }
 }
