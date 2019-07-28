@@ -27,4 +27,9 @@ class Index
     {
         return $this->column;
     }
+
+    public function __toString()
+    {
+        return "I [{$this->row}, {$this->column}]";
+    }
 }

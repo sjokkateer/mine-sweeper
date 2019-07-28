@@ -30,6 +30,5 @@ class Sudoku
     public function checkSolution()
     {
         
-
     }
 }

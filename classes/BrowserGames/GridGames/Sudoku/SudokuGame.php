@@ -9,7 +9,7 @@ use Generics\Index;
 
 class SudokuGame extends AbstractGridGame
 {
-    private $quadrant;
+    private $quadrants;
 
     public function __construct(GridGameDifficulty $difficulty, int $rows = 9, int $columns = 9)
     {
@@ -31,11 +31,11 @@ class SudokuGame extends AbstractGridGame
 
     private function determineQuadrant(SudokuCell $cell)
     {
-        $quadrantRow = intdiv($cell->getRow() + 1, 3);
-        $quadrantColumn = intdiv($cell->getColumn() + 1, 3);
+        $quadrantRow = intdiv($cell->getRow(), 3);
+        $quadrantColumn = intdiv($cell->getColumn(), 3);
         $quadrantIndex = new Index($quadrantRow, $quadrantColumn);
         $cell->setQuadrantIndex($quadrantIndex);
-        $quadrant[$quadrantRow][$quadrantColumn][] = $cell;
+        $this->quadrants[$quadrantRow][$quadrantColumn][] = $cell;
     }
 
     private function generateNumbers()
@@ -64,7 +64,7 @@ class SudokuGame extends AbstractGridGame
         $column = $cell->getColumn();
 
         return $this->valueIsAllowedInRowAndColumn($row, $column, $value) &&
-                    $this->valueIsAllowedInQuadrant($row, $column, $value);
+                    $this->valueIsAllowedInQuadrant($cell, $value);
     }
 
     public function isWon(): bool
@@ -87,10 +87,20 @@ class SudokuGame extends AbstractGridGame
         return true;
     }
 
-    private function valueIsAllowedInQuadrant(int $row, int $column, int $value)
+    private function valueIsAllowedInQuadrant(SudokuCell $cell, int $value)
     {
         // Determine the quadrant.
+        $quadrantIndex = $cell->getQuadrantIndex();
+        $quadrantRow = $quadrantIndex->getRow();
+        $quadrantColumn = $quadrantIndex->getColumn();
+        $quadrant = $this->quadrants[$quadrantRow][$quadrantColumn];
         // Iterate over all cells in the quadrant except for the cell itself.
+        foreach($quadrant as $cell) {
+            if ($cell->getValue() == $value) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -99,6 +109,32 @@ class SudokuGame extends AbstractGridGame
         $cell = $this->getCell($row, $column);
         if (!$cell->isInitialized()) {
             $cell->setValue($value);
+        }
+    }
+
+    public function printIndices()
+    {
+        $columnCount = 0;
+        $rowCount = 0;
+        foreach($this->grid as $row) {
+            foreach ($row as $cell) {
+                echo $cell->getQuadrantIndex() . ' ';
+                $columnCount++;
+
+                if ($columnCount % 3 == 0) {
+                    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                }
+
+                if ($columnCount == 9) {
+                    $columnCount = 0;
+                    echo '<br/>';
+                }
+            }
+            $rowCount++;
+            if ($rowCount == 3) {
+                $rowCount = 0;
+                echo '<br/>';
+            }
         }
     }
 }

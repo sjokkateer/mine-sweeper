@@ -43,7 +43,7 @@ class SudokuCell extends Cell
     /**
      * Get the value of quadrant
      */ 
-    public function getQuadrant(): Index
+    public function getQuadrantIndex(): Index
     {
         return $this->quadrant;
     }
