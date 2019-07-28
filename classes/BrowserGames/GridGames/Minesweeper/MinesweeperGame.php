@@ -27,8 +27,8 @@ class MinesweeperGame extends AbstractGridGame
         while ($numberOfMines > 0) {
             $row = rand(0, $maxRowIndex);
             $column = rand(0, $maxColumnIndex);
-            if (!$this->grid[$row][$column]->isMine()) {
-                $this->grid[$row][$column]->setMine();
+            if (!$this->getCell($row, $column)->isMine()) {
+                $this->getCell($row, $column)->setMine();
                 $numberOfMines--;
             }
         }
@@ -63,7 +63,7 @@ class MinesweeperGame extends AbstractGridGame
                 $row = $rowIndex + $i;
                 $column =  $columnIndex + $j;
                 if ($this->indexInGrid($row, $column)) {
-                    $neighbor = $this->grid[$row][$column];
+                    $neighbor = $this->getCell($row, $column);
                     $cell->addNeighbor($neighbor);
                 }
             }
@@ -126,7 +126,7 @@ class MinesweeperGame extends AbstractGridGame
 
     public function setClicked(int $row, int $column)
     {
-        $cell = $this->grid[$row][$column];
+        $cell = $this->getCell($row, $column);
         if (!$cell->isFlagged()) {
             $cell->setClicked();
             if ($cell->isMine()) {
@@ -166,7 +166,7 @@ class MinesweeperGame extends AbstractGridGame
 
     public function setFlagged(int $row, int $column, bool $flagged)
     {
-        $cell = $this->grid[$row][$column];
+        $cell = $this->getCell($row, $column);
         switch($flagged) {
             case true:
                 if ($this->getFlagCount() > 0) {
@@ -205,7 +205,7 @@ class MinesweeperGame extends AbstractGridGame
 
     public function isClicked(int $row, int $column): bool
     {
-        return $this->grid[$row][$column]->isClicked();
+        return $this->getCell($row, $column)->isClicked();
     }
 
     /**

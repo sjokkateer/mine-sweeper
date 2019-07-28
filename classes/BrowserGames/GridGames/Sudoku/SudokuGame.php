@@ -10,8 +10,8 @@ class SudokuGame extends AbstractGridGame
     public function __construct(GridGameDifficulty $difficulty, int $rows = 9, int $columns = 9)
     {
         parent::__construct('Sudoku', $difficulty, $rows, $columns);
-        $this->generateNumbers();
         srand(0);
+        $this->generateNumbers();
     }
 
     protected function initializeGrid(): array
@@ -65,6 +65,7 @@ class SudokuGame extends AbstractGridGame
         for($i = 0; $i < $maxIndex; $i++) {
             $currentRowCell = $this->getCell($row, $i);
             $currentColumnCell = $this->getCell($i, $column);
+            // Should add a check to skip the given cell later on.
             if ($currentRowCell->getValue() == $value || $currentColumnCell->getValue() == $value) {
                 return false;
             }
@@ -74,7 +75,15 @@ class SudokuGame extends AbstractGridGame
 
     private function valueIsAllowedInQuadrant(int $row, int $column, int $value)
     {
+        // Determine the quadrant.
+        // Iterate over all cells in the quadrant except for the cell itself.
+
         return true;
+    }
+
+    private function determineQuadrant(int $row, int $column): int
+    {
+
     }
 
     public function setValue(int $row, int $column, int $value)
