@@ -18,7 +18,7 @@ $game = $_SESSION['sudoku'];
                     <?php endif; ?>
                     <!-- If the value != between 1 and 9, display an input field -->
                         <?php if($game->getValue($i, $j) >= 1 &&  $game->getValue($i, $j) <= 9): ?>
-                            <?= "[$i, $j] = {$game->getValue($i, $j)}" ?>
+                            <?= $game->getValue($i, $j) ?>
                     <!-- Else display the value -->
                         <?php else: ?>
                             <input type="number" name="" min="1" max="9">
@@ -30,4 +30,12 @@ $game = $_SESSION['sudoku'];
         </tbody>
     </table>
     <input type="submit" value="Check Solution">
+</form>
+
+<br/>
+<br/>
+<br/>
+
+<form action="reset.php" method="post">
+    <input type="submit" value="Reset Session">
 </form>

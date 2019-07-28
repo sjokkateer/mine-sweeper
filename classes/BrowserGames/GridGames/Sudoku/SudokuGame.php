@@ -11,6 +11,7 @@ class SudokuGame extends AbstractGridGame
     {
         parent::__construct('Sudoku', $difficulty, $rows, $columns);
         $this->generateNumbers();
+        srand(0);
     }
 
     protected function initializeGrid(): array
@@ -36,25 +37,51 @@ class SudokuGame extends AbstractGridGame
                 do {
                     $generatedValue = rand(1, 9);
                 } while (!$this->valueIsAllowed($cell, $generatedValue));
-                $cell->setValue($generatedValue);
+                $this->setValue($row, $column, $generatedValue);
                 $cell->initialize();
                 $randomValuesGenerated--;
             }
         }
     }
 
-    public function valueIsAllowed($cell, $value)
+    public function valueIsAllowed(SudokuCell $cell, int $value)
     {
         $row = $cell->getRow();
         $column = $cell->getColumn();
 
-        return $this->valueIsAllowedInRow() &&
-                    $this->valueIsAllowedInColumn() &&
-                        $this->valueIsAllowedInQuadrant();
+        return $this->valueIsAllowedInRowAndColumn($row, $column, $value) &&
+                    $this->valueIsAllowedInQuadrant($row, $column, $value);
     }
 
     public function isWon(): bool
     {
         return false;
+    }
+
+    private function valueIsAllowedInRowAndColumn(int $row, int $column, int $value)
+    {
+        // Since Sudokus have a fixed dimension and are square grids.
+        $maxIndex = $this->getRows();
+        for($i = 0; $i < $maxIndex; $i++) {
+            $currentRowCell = $this->getCell($row, $i);
+            $currentColumnCell = $this->getCell($i, $column);
+            if ($currentRowCell->getValue() == $value || $currentColumnCell->getValue() == $value) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function valueIsAllowedInQuadrant(int $row, int $column, int $value)
+    {
+        return true;
+    }
+
+    public function setValue(int $row, int $column, int $value)
+    {
+        $cell = $this->getCell($row, $column);
+        if (!$cell->isInitialized()) {
+            $cell->setValue($value);
+        }
     }
 }

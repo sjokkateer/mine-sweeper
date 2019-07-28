@@ -13,7 +13,7 @@ class SudokuCell extends Cell
         $this->initalized = false;
     }
 
-    public function setValue(int $value)
+    public function setValue($value)
     {
         if ($value >= 1 && $value <= 9) {
             parent::setValue($value);
