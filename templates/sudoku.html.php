@@ -36,8 +36,4 @@ $game = $_SESSION['sudoku'];
 <br/>
 <br/>
 
-<form action="reset.php" method="post">
-    <input type="submit" value="Reset Session">
-</form>
-
 <?= $game->printIndices() ?>
