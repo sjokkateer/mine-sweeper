@@ -1,4 +1,10 @@
 {
+    "autoload": {
+        "psr-4": {
+            "BrowserGames\\": "classes/BrowserGames",
+            "Generics\\": "classes/Generics"
+        }
+    },
     "require": {
         "phpunit/phpunit": "^8.2"
     }

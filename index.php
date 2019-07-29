@@ -2,8 +2,7 @@
 use Generics\EntryPoint;
 use BrowserGames\BrowserGameRoutes;
 
-include __DIR__ . '/includes/autoloader.php';
-spl_autoload_register('autoload');
+require __DIR__ . '/vendor/autoload.php';
 
 $route = $_GET['route'] ?? '';
 
