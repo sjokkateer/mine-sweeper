@@ -12,22 +12,22 @@ class CellTest extends TestCase
     {
         if ($row < 0 || $column < 0) {
             $this->expectException($expected);
-            new class($row, $column) extends Cell {
-                public function __construct(int $row, int $column) 
-                {
-                    parent::__construct($row, $column, 0);
-                }
-            };
+            $this->createCellInstance($row, $column);
         } else {
-            $cell = new class($row, $column) extends Cell {
-                public function __construct(int $row, int $column) 
-                {
-                    parent::__construct($row, $column, 0);
-                }
-            };
+            $cell = $this->createCellInstance($row, $column);
             $this->assertSame($row, $cell->getRow());
             $this->assertSame($column, $cell->getColumn());
         }
+    }
+
+    private function createCellInstance(int $row, int $column): Cell
+    {
+        return new class($row, $column) extends Cell {
+            public function __construct(int $row, int $column) 
+            {
+                parent::__construct($row, $column, 0);
+            }
+        };
     }
 
     public function constructionProvider()
