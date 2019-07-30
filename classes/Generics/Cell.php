@@ -11,8 +11,8 @@ abstract class Cell
 
     public function __construct(int $row, int $column, $value)
     {
-        $this->row = $row;
-        $this->column = $column;
+        $this->setRow($row);
+        $this->setColumn($column);
         $this->value = $value;
     }
     
@@ -56,7 +56,7 @@ abstract class Cell
     /**
      * Set the value of row
      */ 
-    public function setRow($row)
+    private function setRow($row)
     {
         if ($row >= 0) {
             $this->row = $row;
@@ -69,7 +69,7 @@ abstract class Cell
     /**
      * Set the value of column
      */ 
-    public function setColumn(int $column)
+    private function setColumn(int $column)
     {
         if ($column >= 0) {
             $this->column = $column;
