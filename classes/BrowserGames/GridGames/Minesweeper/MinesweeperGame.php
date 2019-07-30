@@ -46,12 +46,13 @@ class MinesweeperGame extends AbstractGridGame
 
     private function countMines(MinesweeperCell $cell)
     {
+        $minesCount = $cell->getMinesCount();
         foreach($cell->getNeighbors() as $neighbor) {
             if ($neighbor->isMine()) {
-                $newCount = $cell->getMinesCount() + 1;
-                $cell->setMinesCount($newCount);
+                $minesCount++;
             }
         }
+        $cell->setMinesCount($minesCount);
     }
 
     private function setNeighbors(MinesweeperCell $cell)

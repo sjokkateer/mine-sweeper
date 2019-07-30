@@ -1,6 +1,8 @@
 <?php
 namespace Generics;
 
+use Generics\InvalidIndexException;
+
 abstract class Cell
 {
     private $row;
@@ -49,5 +51,30 @@ abstract class Cell
     public function setValue($value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * Set the value of row
+     */ 
+    public function setRow($row)
+    {
+        if ($row >= 0) {
+            $this->row = $row;
+        } else {
+            throw new InvalidIndexException();
+        }
+        
+    }
+
+    /**
+     * Set the value of column
+     */ 
+    public function setColumn(int $column)
+    {
+        if ($column >= 0) {
+            $this->column = $column;
+        } else {
+            throw new InvalidIndexException();
+        }
     }
 }

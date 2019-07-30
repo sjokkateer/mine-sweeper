@@ -13,6 +13,7 @@ class Minesweeper
         if (!isset($_SESSION[self::GAME_NAME])) {
             $_SESSION[self::GAME_NAME] = new MinesweeperGame(new GridGameDifficulty('Easy', 10),  9, 9);
         }
+        
         return [
             'template' => self::GAME_NAME . '.html.php',
             'variables' => [
