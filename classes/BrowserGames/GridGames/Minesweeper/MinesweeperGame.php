@@ -9,13 +9,27 @@ class MinesweeperGame extends AbstractGridGame
 {
     private $fatalMine;
     private $gameOver;
+    private $mines;
 
     public function __construct(GridGameDifficulty $difficulty, int $rows, int $columns)
     {
-        parent::__construct('Minesweeper', $difficulty, $rows, $columns);
         $this->gameOver = false;
+        $this->mines = [];
+        parent::__construct('Minesweeper', $difficulty, $rows, $columns);
         $this->generateMines();
-        $this->forEachCell('setNeighbors');
+        //$this->setNeighbors();
+
+    }
+
+    protected function initializeGrid()
+    {
+        for ($i = 0; $i < $this->getRows(); $i++) {
+            for ($j = 0; $j < $this->getColumns(); $j++) {
+                $cell = new MinesweeperCell($i, $j);
+                $this->addCell($i, $j, $cell);
+                $this->cells[] = $cell;
+            }
+        }
     }
 
     private function generateMines()
@@ -54,7 +68,8 @@ class MinesweeperGame extends AbstractGridGame
         $column = $cell->getColumn();
 
         $mine = new Mine($row, $column);
-        $this->setCell($row, $column, $mine);
+        $this->addCell($row, $column, $mine);
+        $this->mines[] = $mine;
     }
 
     private function forEachCell(string $method)
@@ -69,17 +84,6 @@ class MinesweeperGame extends AbstractGridGame
     private function setNeighbors(MinesweeperCell $cell)
     {
         $this->forEachNeighbor($cell, 'addNeighBor');
-    }
-
-    private function countMines(MinesweeperCell $cell)
-    {
-        $minesCount = $cell->getMinesCount();
-        foreach($cell->getNeighbors() as $neighbor) {
-            if ($neighbor->isMine()) {
-                $minesCount++;
-            }
-        }
-        $cell->setMinesCount($minesCount);
     }
 
     private function forEachNeighbor(MinesweeperCell $cell, string $method)
@@ -105,14 +109,20 @@ class MinesweeperGame extends AbstractGridGame
         return $this->getCell($neighborRowIndex, $neighborColumnIndex);
     }
 
-    protected function initializeGrid()
+    private function countMines(MinesweeperCell $cell)
     {
-        for ($i = 0; $i < $this->getRows(); $i++) {
-            for ($j = 0; $j < $this->getColumns(); $j++) {
-                $cell = new MinesweeperCell($i, $j);
-                $this->setCell($i, $j, $cell);
+        $minesCount = $cell->getMinesCount();
+        foreach($cell->getNeighbors() as $neighbor) {
+            if ($neighbor->isMine()) {
+                $minesCount++;
             }
         }
+        $cell->setMinesCount($minesCount);
+    }
+
+    private function forEachMine()
+    {
+
     }
 
     public function outputCells()

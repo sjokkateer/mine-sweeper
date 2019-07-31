@@ -36,10 +36,20 @@ abstract class AbstractGridGame extends AbstractGame
     /**
      * Get the cell at $row index, $column index in the grid
      */ 
-    public function getCell(int $row, int $column)
+    public function getCell(int $row, int $column): Cell
     {
         if ($this->indexInGrid($row, $column)) {
             return $this->grid[$row][$column];
+        }
+    }
+
+    public function addCell(int $row, int $column, Cell $cell): bool
+    {
+        if ($this->indexInGrid($row, $column)) {
+            $this->grid[$row][$column] = $cell;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -62,11 +72,6 @@ abstract class AbstractGridGame extends AbstractGame
         $maxIndex = $this->getRows() - 1;
         
         return $minIndex <= $row && $row <= $maxIndex;
-    }
-
-    public function setCell(int $row, int $column, Cell $cell)
-    {
-        $this->grid[$row][$column] = $cell;
     }
 
     public function getValue(int $row, int $column)
