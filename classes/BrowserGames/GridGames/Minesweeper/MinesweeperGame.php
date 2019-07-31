@@ -16,31 +16,19 @@ class MinesweeperGame extends AbstractGridGame
         $this->gameOver = false;
         $this->mines = [];
         parent::__construct('Minesweeper', $difficulty, $rows, $columns);
-        $this->generateMines();
-        //$this->setNeighbors();
-
     }
 
     protected function initializeGrid()
     {
-        for ($i = 0; $i < $this->getRows(); $i++) {
-            for ($j = 0; $j < $this->getColumns(); $j++) {
-                $cell = new MinesweeperCell($i, $j);
-                $this->addCell($i, $j, $cell);
-                $this->cells[] = $cell;
-            }
-        }
+        $this->generateMines();
+        $this->generateCells();
     }
 
     private function generateMines()
     {
         $requiredNumberOfMines = $this->getTotalNumberOfMines();
-        while ($requiredNumberOfMines > 0) {
-            $cell = $this->getRandomCell();
-            if (get_class($cell) !== Mine::class) {
-                $this->changeCellToMine($cell);
-                $requiredNumberOfMines--;
-            }
+        while ($requiredNumberOfMines < count($this->mines)) {
+            $this->generateRandomMine();
         }
     }
 
@@ -50,33 +38,52 @@ class MinesweeperGame extends AbstractGridGame
         return $difficulty->getNumberOfDefaultValues();
     }
 
-    private function getRandomCell(): MinesweeperCell
+    private function generateRandomMine()
     {
         $maxRowIndex = $this->getRows() - 1;
         $maxColumnIndex = $this->getColumns() - 1;
 
-        $row = rand(0, $maxRowIndex);
-        $column = rand(0, $maxColumnIndex);
-
-        $cell = $this->getCell($row, $column);
-        return $cell;
-    }
-
-    private function changeCellToMine(MinesweeperCell $cell)
-    {
-        $row = $cell->getRow();
-        $column = $cell->getColumn();
+        do {
+            $row = rand(0, $maxRowIndex);
+            $column = rand(0, $maxColumnIndex);
+        } while ($this->mineAlreadyExists($row, $column));
 
         $mine = new Mine($row, $column);
-        $this->addCell($row, $column, $mine);
         $this->mines[] = $mine;
     }
 
-    private function forEachCell(string $method)
+    private function mineAlreadyExists(int $row, int $column): bool
     {
-        foreach ($this->grid as $row) {
-            foreach ($row as $cell) {
-                $this->{$method}($cell);
+        foreach($this->mines as $mine) {
+            if ($mine->getRow() === $row && $mine->getColumn() === $column) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function generateCells()
+    {
+        for ($rowIndex = 0; $rowIndex < $this->getRows(); $rowIndex++) {
+            for ($columnIndex = 0; $columnIndex < $this->getColumns(); $columnIndex++) {
+                $this->addCell($rowIndex, $columnIndex);
+            }
+        }
+    }
+
+    public function addCell(int $row, int $column)
+    {
+        $cell = $this->getCell($row, $column);
+        if ($cell === null) {
+            $this->grid[] = new MinesweeperCell($row, $column);
+        }
+    }
+
+    public function getCell(int $row, int $column)
+    {
+        foreach($this->grid as $cell) {
+            if ($cell->getRow() === $row && $cell->getColumn() === $column) {
+                return $cell;
             }
         }
     }
