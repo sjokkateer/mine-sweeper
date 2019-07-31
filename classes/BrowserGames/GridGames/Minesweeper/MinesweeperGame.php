@@ -199,10 +199,8 @@ class MinesweeperGame extends AbstractGridGame
 
     private function displayAllMines()
     {
-        foreach($this->grid as $cell) {
-            if ($cell->isMine()) {
-                $cell->setClicked();
-            }
+        foreach($this->mines as $mine) {
+            $mine->setClicked();
         }
     }
 
