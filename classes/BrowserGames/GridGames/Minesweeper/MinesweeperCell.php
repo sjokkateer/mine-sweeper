@@ -12,7 +12,7 @@ class MinesweeperCell extends Cell
 
     public function __construct(int $row, int $column)
     {
-        parent::__construct($row, $column, false);
+        parent::__construct($row, $column, false); // False can be removed too later on
         $this->clicked = false;
         $this->flagged = false;
         $this->minesCount = 0;
@@ -62,9 +62,7 @@ class MinesweeperCell extends Cell
     {
         $result = ' ';
         if ($this->isClicked()) {
-            if ($this->isMine()) {
-                $result = '*';
-            } else if ($this->getMinesCount() > 0) {
+            if ($this->getMinesCount() > 0) {
                 $result = $this->getMinesCount();
             }
         }

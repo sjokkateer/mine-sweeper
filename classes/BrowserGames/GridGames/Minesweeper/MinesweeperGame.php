@@ -20,18 +20,41 @@ class MinesweeperGame extends AbstractGridGame
 
     private function generateMines()
     {
-        $difficulty = $this->getDifficulty();
-        $numberOfMines = $difficulty->getNumberOfDefaultValues();
-        $maxRowIndex = $this->getRows() - 1;
-        $maxColumnIndex = $this->getColumns() - 1;
-        while ($numberOfMines > 0) {
-            $row = rand(0, $maxRowIndex);
-            $column = rand(0, $maxColumnIndex);
-            if (!$this->getCell($row, $column)->isMine()) {
-                $this->getCell($row, $column)->setMine();
-                $numberOfMines--;
+        $totalNumberOfMines = $this->getTotalNumberOfMines();
+        while ($totalNumberOfMines > 0) {
+            $cell = $this->getRandomCell();
+            if (!get_class($cell) === Mine::class) {
+                $this->changeCellToMine($cell);
+                $totalNumberOfMines--;
             }
         }
+    }
+
+    private function getTotalNumberOfMines(): int
+    {
+        $difficulty = $this->getDifficulty();
+        return $difficulty->getNumberOfDefaultValues();
+    }
+
+    private function getRandomCell(): MinesweeperCell
+    {
+        $maxRowIndex = $this->getRows() - 1;
+        $maxColumnIndex = $this->getColumns() - 1;
+
+        $row = rand(0, $maxRowIndex);
+        $column = rand(0, $maxColumnIndex);
+
+        $cell = $this->getCell($row, $column);
+        return $cell;
+    }
+
+    private function changeCellToMine(MinesweeperCell $cell)
+    {
+        $row = $cell->getRow();
+        $column = $cell->getColumn();
+
+        $mine = new Mine($row, $column);
+        $this->setCell($row, $column, $mine);
     }
 
     private function countMinesInNeighborhood()
