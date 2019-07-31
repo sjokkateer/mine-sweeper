@@ -66,6 +66,11 @@ class MinesweeperGame extends AbstractGridGame
         }
     }
 
+    private function setNeighbors(MinesweeperCell $cell)
+    {
+        $this->forEachNeighbor($cell, 'addNeighBor');
+    }
+
     private function countMines(MinesweeperCell $cell)
     {
         $minesCount = $cell->getMinesCount();
@@ -77,14 +82,14 @@ class MinesweeperGame extends AbstractGridGame
         $cell->setMinesCount($minesCount);
     }
 
-    private function setNeighbors(MinesweeperCell $cell)
+    private function forEachNeighbor(MinesweeperCell $cell, string $method)
     {
         for ($rowOffset = -1; $rowOffset <= 1; $rowOffset++) {
             for ($columnOffset = -1; $columnOffset <= 1; $columnOffset++) {
                 $neighbor = $this->getNeighbor($cell, $rowOffset, $columnOffset);
                 if ($neighbor !== null) {
-                    $cell->addNeighbor($neighbor);
-                } 
+                    $cell->{$method}($neighbor);
+                }
             }
         }
     }
