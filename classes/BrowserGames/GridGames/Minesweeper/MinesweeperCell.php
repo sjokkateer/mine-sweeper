@@ -12,7 +12,7 @@ class MinesweeperCell extends Cell
 
     public function __construct(int $row, int $column)
     {
-        parent::__construct($row, $column, false); // False can be removed too later on
+        parent::__construct($row, $column, false);
         $this->clicked = false;
         $this->flagged = false;
         $this->minesCount = 0;
@@ -44,13 +44,9 @@ class MinesweeperCell extends Cell
     /**
      * Set the value of minesCount
      */ 
-    public function setMinesCount(int $minesCount)
+    public function incrementMinesCount()
     {
-        if ($minesCount >= 0) {
-            $this->minesCount = $minesCount;
-        } else {
-            throw new InvalidMinesCountException("MinesCount has to be >= 0, got $minesCount");
-        }
+        $this->minesCount++;
     }
 
     public function addNeighbor(MinesweeperCell $cell)
@@ -64,7 +60,10 @@ class MinesweeperCell extends Cell
     {
         $result = ' ';
         if ($this->isClicked()) {
-            if ($this->getMinesCount() > 0) {
+            if ($this->isMine()) {
+                $result = '*';
+            }
+            elseif ($this->getMinesCount() > 0) {
                 $result = $this->getMinesCount();
             }
         }

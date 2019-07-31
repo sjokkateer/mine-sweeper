@@ -20,9 +20,27 @@ class MinesweeperGame extends AbstractGridGame
 
     protected function initializeGrid()
     {
-        $this->generateMines();
         $this->generateCells();
+        $this->generateMines();
         $this->setNeighbors();
+        $this->setMinesCount();
+    }
+
+    private function generateCells()
+    {
+        for ($rowIndex = 0; $rowIndex < $this->getRows(); $rowIndex++) {
+            for ($columnIndex = 0; $columnIndex < $this->getColumns(); $columnIndex++) {
+                $this->addCell($rowIndex, $columnIndex);
+            }
+        }
+    }
+
+    public function addCell(int $row, int $column)
+    {
+        $cell = $this->getCell($row, $column);
+        if ($cell === null) {
+            $this->grid[] = new MinesweeperCell($row, $column);
+        }
     }
 
     private function generateMines()
@@ -47,38 +65,11 @@ class MinesweeperGame extends AbstractGridGame
         do {
             $row = rand(0, $maxRowIndex);
             $column = rand(0, $maxColumnIndex);
-        } while ($this->mineAlreadyExists($row, $column));
+            $cell = $this->getCell($row, $column);
+        } while ($cell->isMine());
 
-        $mine = new Mine($row, $column);
-        $this->mines[] = $mine;
-        $this->grid[] = $mine;
-    }
-
-    private function mineAlreadyExists(int $row, int $column): bool
-    {
-        foreach($this->mines as $mine) {
-            if ($mine->getRow() === $row && $mine->getColumn() === $column) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function generateCells()
-    {
-        for ($rowIndex = 0; $rowIndex < $this->getRows(); $rowIndex++) {
-            for ($columnIndex = 0; $columnIndex < $this->getColumns(); $columnIndex++) {
-                $this->addCell($rowIndex, $columnIndex);
-            }
-        }
-    }
-
-    public function addCell(int $row, int $column)
-    {
-        $cell = $this->getCell($row, $column);
-        if ($cell === null) {
-            $this->grid[] = new MinesweeperCell($row, $column);
-        }
+        $cell->setMine();
+        $this->mines[] = $cell;
     }
 
     public function getCell(int $row, int $column)
@@ -93,23 +84,23 @@ class MinesweeperGame extends AbstractGridGame
     private function setNeighbors()
     {
         foreach($this->grid as $cell) {
-            $this->forEachNeighbor($cell, 'addNeighbor');
+            $this->addNeighboringCells($cell);
         }
     }
 
-    private function forEachNeighbor(MinesweeperCell $cell, string $method)
+    private function addNeighboringCells(MinesweeperCell $cell)
     {
         for ($rowOffset = -1; $rowOffset <= 1; $rowOffset++) {
             for ($columnOffset = -1; $columnOffset <= 1; $columnOffset++) {
-                $neighbor = $this->getNeighbor($cell, $rowOffset, $columnOffset);
+                $neighbor = $this->getExistingNeighbor($cell, $rowOffset, $columnOffset);
                 if ($neighbor !== null) {
-                    $cell->{$method}($neighbor);
+                    $cell->addNeighbor($neighbor);
                 }
             }
         }
     }
 
-    private function getNeighbor(MinesweeperCell $cell, int $rowOffset, int $columnOffset)
+    private function getExistingNeighbor(MinesweeperCell $cell, int $rowOffset, int $columnOffset)
     {
         $rowIndex = $cell->getRow();
         $columnIndex = $cell->getColumn();
@@ -120,15 +111,13 @@ class MinesweeperGame extends AbstractGridGame
         return $this->getCell($neighborRowIndex, $neighborColumnIndex);
     }
 
-    private function countMines(MinesweeperCell $cell)
+    private function setMinesCount()
     {
-        $minesCount = $cell->getMinesCount();
-        foreach($cell->getNeighbors() as $neighbor) {
-            if ($neighbor->isMine()) {
-                $minesCount++;
+        foreach($this->mines as $mine) {
+            foreach($mine->getNeighbors() as $neighbor) {
+                $neighbor->incrementMinesCount();
             }
         }
-        $cell->setMinesCount($minesCount);
     }
 
     public function getFlagCount(): int
