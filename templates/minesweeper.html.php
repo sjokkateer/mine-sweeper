@@ -59,3 +59,6 @@
         </div>
     </div>
 </div>
+<div>
+    <?= $game->printCells(); ?>
+</div>

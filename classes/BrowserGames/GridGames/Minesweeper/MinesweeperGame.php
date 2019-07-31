@@ -22,12 +22,13 @@ class MinesweeperGame extends AbstractGridGame
     {
         $this->generateMines();
         $this->generateCells();
+        $this->setNeighbors();
     }
 
     private function generateMines()
     {
         $requiredNumberOfMines = $this->getTotalNumberOfMines();
-        while ($requiredNumberOfMines < count($this->mines)) {
+        while (count($this->mines) < $requiredNumberOfMines) {
             $this->generateRandomMine();
         }
     }
@@ -50,6 +51,7 @@ class MinesweeperGame extends AbstractGridGame
 
         $mine = new Mine($row, $column);
         $this->mines[] = $mine;
+        $this->grid[] = $mine;
     }
 
     private function mineAlreadyExists(int $row, int $column): bool
@@ -88,9 +90,11 @@ class MinesweeperGame extends AbstractGridGame
         }
     }
 
-    private function setNeighbors(MinesweeperCell $cell)
+    private function setNeighbors()
     {
-        $this->forEachNeighbor($cell, 'addNeighBor');
+        foreach($this->grid as $cell) {
+            $this->forEachNeighbor($cell, 'addNeighbor');
+        }
     }
 
     private function forEachNeighbor(MinesweeperCell $cell, string $method)
@@ -127,29 +131,12 @@ class MinesweeperGame extends AbstractGridGame
         $cell->setMinesCount($minesCount);
     }
 
-    private function forEachMine()
-    {
-
-    }
-
-    public function outputCells()
-    {
-        foreach ($this->grid as $row) {
-            foreach($row as $cell) {
-                echo $cell;
-            }
-            echo '<br />';
-        }
-    }
-
     public function getFlagCount(): int
     {
         $flagCount = $this->getDifficulty()->getNumberOfDefaultValues();
-        foreach ($this->grid as $row) {
-            foreach($row as $cell) {
-                if ($cell->isFlagged()) {
-                    $flagCount--;
-                }
+        foreach ($this->grid as $cell) {
+            if ($cell->isFlagged()) {
+                $flagCount--;
             }
         }
         return $flagCount;
@@ -183,12 +170,10 @@ class MinesweeperGame extends AbstractGridGame
 
     private function allMinesFlagged(): bool
     {
-        foreach($this->grid as $row) {
-            foreach ($row as $cell) {
-                if ($cell->isMine()) {
-                    if (!$cell->isFlagged()) {
-                        return false;
-                    }
+        foreach($this->grid as $cell) {
+            if ($cell->isMine()) {
+                if (!$cell->isFlagged()) {
+                    return false;
                 }
             }
         }
@@ -212,11 +197,9 @@ class MinesweeperGame extends AbstractGridGame
 
     private function displayAllMines()
     {
-        foreach($this->grid as $row) {
-            foreach($row as $cell) {
-                if ($cell->isMine()) {
-                    $cell->setClicked();
-                }
+        foreach($this->grid as $cell) {
+            if ($cell->isMine()) {
+                $cell->setClicked();
             }
         }
     }
@@ -250,5 +233,31 @@ class MinesweeperGame extends AbstractGridGame
     public function isFatalMine(int $row, int $column): bool
     {
         return $this->fatalMine->getRow() == $row && $this->fatalMine->getColumn() == $column;
+    }
+
+    public function printMines()
+    {
+        $totalMines = count($this->mines);
+        echo "Total number of mines: $totalMines";
+        echo "<br />";
+        foreach($this->mines as $mine) {
+            echo "M: [{$mine->getRow()}, {$mine->getColumn()}]";
+            echo '&nbsp&nbsp&nbsp';
+        }
+    }
+
+    public function printCells()
+    {
+        $totalCells = count($this->grid);
+        echo "Total number of cells: $totalCells";
+        echo "<br />";
+        for($i = 0; $i < count($this->grid); $i++) {
+            $cell = $this->grid[$i];
+            echo "C: [{$cell->getRow()}, {$cell->getColumn()}]";
+            echo '&nbsp&nbsp&nbsp';
+            if (($i + 1) % $this->getColumns() === 0) {
+                echo "<br />";
+            }
+        }
     }
 }
