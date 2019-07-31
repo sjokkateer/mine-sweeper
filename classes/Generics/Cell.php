@@ -25,6 +25,18 @@ abstract class Cell
     }
 
     /**
+     * Set the value of row
+     */ 
+    private function setRow($row)
+    {
+        if ($row >= 0) {
+            $this->row = $row;
+        } else {
+            throw new InvalidIndexException();
+        } 
+    }
+
+    /**
      * Get the value of column
      */ 
     public function getColumn(): int
@@ -32,9 +44,16 @@ abstract class Cell
         return $this->column;
     }
 
-    public function __toString()
+    /**
+     * Set the value of column
+     */ 
+    private function setColumn(int $column)
     {
-        return "[{$this->row}, {$this->column}]";
+        if ($column >= 0) {
+            $this->column = $column;
+        } else {
+            throw new InvalidIndexException();
+        }
     }
 
     /**
@@ -53,28 +72,8 @@ abstract class Cell
         $this->value = $value;
     }
 
-    /**
-     * Set the value of row
-     */ 
-    private function setRow($row)
+    public function __toString()
     {
-        if ($row >= 0) {
-            $this->row = $row;
-        } else {
-            throw new InvalidIndexException();
-        }
-        
-    }
-
-    /**
-     * Set the value of column
-     */ 
-    private function setColumn(int $column)
-    {
-        if ($column >= 0) {
-            $this->column = $column;
-        } else {
-            throw new InvalidIndexException();
-        }
+        return "[{$this->row}, {$this->column}]";
     }
 }
