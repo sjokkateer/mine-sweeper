@@ -60,17 +60,23 @@ class MinesweeperGame extends AbstractGridGame
 
     private function generateRandomMine()
     {
-        $maxRowIndex = $this->getRows() - 1;
-        $maxColumnIndex = $this->getColumns() - 1;
-
         do {
-            $row = rand(0, $maxRowIndex);
-            $column = rand(0, $maxColumnIndex);
-            $cell = $this->getCell($row, $column);
+            $cell = $this->getRandomCell();
         } while ($cell->isMine());
 
         $cell->setMine();
         $this->mines[] = $cell;
+    }
+
+    private function getRandomCell(): MinesweeperCell
+    {
+        $maxRowIndex = $this->getRows() - 1;
+        $maxColumnIndex = $this->getColumns() - 1;
+
+        $row = rand(0, $maxRowIndex);
+        $column = rand(0, $maxColumnIndex);
+
+        return $this->getCell($row, $column);
     }
 
     public function getCell(int $row, int $column)
