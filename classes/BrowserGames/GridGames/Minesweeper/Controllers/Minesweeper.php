@@ -7,6 +7,8 @@ use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 class Minesweeper
 {
     private const GAME_NAME = 'minesweeper';
+    private const ROW = 'row';
+    private const COLUMN = 'column';
 
     public function home(): array
     {
@@ -32,8 +34,8 @@ class Minesweeper
     {
         $game = $_SESSION[self::GAME_NAME];
         if (!$game->isGameOver()) {
-            $row = $_POST['row'];
-            $column = $_POST['column'];
+            $row = $_POST[self::ROW];
+            $column = $_POST[self::COLUMN];
             $game->setClicked($row, $column);
         }
         return $this->home();
@@ -49,8 +51,8 @@ class Minesweeper
     {
         $game = $_SESSION[self::GAME_NAME];
         if (!$game->isGameOver()) {
-            $row = $_POST['row'];
-            $column = $_POST['column'];
+            $row = $_POST[self::ROW];
+            $column = $_POST[self::COLUMN];
             $flagged = $_POST['flagged'];
 
             $game->setFlagged($row, $column, $flagged);

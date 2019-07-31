@@ -19,11 +19,6 @@ class MinesweeperCell extends Cell
         $this->neighbors = [];
     }
 
-    public function isMine()
-    {
-        return $this->getValue();
-    }
-
     /**
      * Get the value of minesCount
      */ 
@@ -33,41 +28,11 @@ class MinesweeperCell extends Cell
     }
 
     /**
-     * Set the value of value to true
-     */ 
-    public function setMine()
-    {
-        $this->setValue(true);
-        $this->minesCount = 1;
-    }
-
-    /**
      * Set the value of minesCount
      */ 
     public function incrementMinesCount()
     {
         $this->minesCount++;
-    }
-
-    public function addNeighbor(MinesweeperCell $cell)
-    {
-        if ($cell !== null) {
-            $this->neighbors[] = $cell;
-        }
-    }
-
-    public function __toString(): string
-    {
-        $result = ' ';
-        if ($this->isClicked()) {
-            if ($this->isMine()) {
-                $result = '*';
-            }
-            elseif ($this->getMinesCount() > 0) {
-                $result = $this->getMinesCount();
-            }
-        }
-        return $result;
     }
 
     /**
@@ -84,6 +49,27 @@ class MinesweeperCell extends Cell
     public function setClicked()
     {
         $this->clicked = true;
+    }
+
+    public function isMine()
+    {
+        return $this->getValue();
+    }
+
+    /**
+     * Set the value of value to true
+     */ 
+    public function setMine()
+    {
+        $this->setValue(true);
+        $this->minesCount = 1;
+    }
+
+    public function addNeighbor(MinesweeperCell $cell)
+    {
+        if ($cell !== null) {
+            $this->neighbors[] = $cell;
+        }
     }
 
     /**
@@ -108,5 +94,19 @@ class MinesweeperCell extends Cell
     public function setFlagged(bool $flagged)
     {
         $this->flagged = $flagged;
+    }
+
+    public function __toString(): string
+    {
+        $result = ' ';
+        if ($this->isClicked()) {
+            if ($this->isMine()) {
+                $result = '*';
+            }
+            elseif ($this->getMinesCount() > 0) {
+                $result = $this->getMinesCount();
+            }
+        }
+        return $result;
     }
 }
