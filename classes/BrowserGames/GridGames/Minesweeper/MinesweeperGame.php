@@ -100,7 +100,7 @@ class MinesweeperGame extends AbstractGridGame
         for ($rowOffset = -1; $rowOffset <= 1; $rowOffset++) {
             for ($columnOffset = -1; $columnOffset <= 1; $columnOffset++) {
                 $neighbor = $this->getExistingNeighbor($cell, $rowOffset, $columnOffset);
-                if ($neighbor !== null) {
+                if ($neighbor !== null && $neighbor !== $cell) {
                     $cell->addNeighbor($neighbor);
                 }
             }
