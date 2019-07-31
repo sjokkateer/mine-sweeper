@@ -6,7 +6,7 @@
 <br />
 <div>
     <div>
-        <h3># of Flags Left: <?= $game->getFlagCount() ?></h3>
+        <h3># of Flags Left: <?= $game->flagsLeft() ?></h3>
     </div>
     <?php if($game->isWon()): ?>
         <div style="color: green;">

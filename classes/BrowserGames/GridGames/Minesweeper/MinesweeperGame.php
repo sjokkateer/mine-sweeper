@@ -120,7 +120,45 @@ class MinesweeperGame extends AbstractGridGame
         }
     }
 
-    public function getFlagCount(): int
+    public function setClicked(int $row, int $column)
+    {
+        $cell = $this->getCell($row, $column);
+        if (!$cell->isFlagged()) {
+            $cell->setClicked();
+            if ($cell->isMine()) {
+                $this->endGame($cell);
+            } else {
+                $this->setClicksRecursively($cell);
+            }
+        }
+    }
+
+    private function endGame(MinesweeperCell $cell)
+    {
+        $this->gameOver = true;
+        $this->displayAllMines();
+        $this->fatalMine = $cell;
+    }
+
+    private function setClicksRecursively(MineSweeperCell $cell)
+    {
+        $cell->setClicked();
+        $cell->setFlagged(false);
+        if ($cell->getMinesCount() === 0) {
+            foreach ($cell->getNeighbors() as $neighbor) {
+                if (!$neighbor->isClicked()) {
+                    $this->setClicksRecursively($neighbor);
+                }
+            }
+        }
+    }
+
+    public function isWon(): bool
+    {
+        return $this->flagsLeft() == 0 && $this->allMinesFlagged();
+    }
+
+    public function flagsLeft(): int
     {
         $flagCount = $this->getDifficulty()->getNumberOfDefaultValues();
         foreach ($this->grid as $cell) {
@@ -131,39 +169,17 @@ class MinesweeperGame extends AbstractGridGame
         return $flagCount;
     }
 
-    public function setClicked(int $row, int $column)
-    {
-        $cell = $this->getCell($row, $column);
-        if (!$cell->isFlagged()) {
-            $cell->setClicked();
-            if ($cell->isMine()) {
-                $this->gameOver = true;
-                $this->displayAllMines();
-                $this->fatalMine = $cell;
-            } else {
-                $this->handleClicksRecursively($cell);
-            }
-        }
-    }
-
     public function isFlagged(int $row, int $column)
     {
         $cell = $this->getCell($row, $column);
         return $cell->isFlagged();
     }
 
-    public function isWon(): bool
-    {
-        return $this->getFlagCount() == 0 && $this->allMinesFlagged();
-    }
-
     private function allMinesFlagged(): bool
     {
-        foreach($this->grid as $cell) {
-            if ($cell->isMine()) {
-                if (!$cell->isFlagged()) {
-                    return false;
-                }
+        foreach($this->mines as $mine) {
+            if (!$mine->isFlagged()) {
+                return false;
             }
         }
         return true;
@@ -172,15 +188,12 @@ class MinesweeperGame extends AbstractGridGame
     public function setFlagged(int $row, int $column, bool $flagged)
     {
         $cell = $this->getCell($row, $column);
-        switch($flagged) {
-            case true:
-                if ($this->getFlagCount() > 0) {
-                    $cell->setFlagged($flagged);
-                }
-                break;
-            case false:
+        if ($flagged) {
+            if ($this->flagsLeft() > 0) {
                 $cell->setFlagged($flagged);
-                break;
+            }
+        } else {
+            $cell->setFlagged($flagged);
         }
     }
 
@@ -189,19 +202,6 @@ class MinesweeperGame extends AbstractGridGame
         foreach($this->grid as $cell) {
             if ($cell->isMine()) {
                 $cell->setClicked();
-            }
-        }
-    }
-
-    private function handleClicksRecursively(MineSweeperCell $cell)
-    {
-        $cell->setClicked();
-        $cell->setFlagged(false);
-        if ($cell->getMinesCount() === 0) {
-            foreach ($cell->getNeighbors() as $neighbor) {
-                if (!$neighbor->isClicked()) {
-                    $this->handleClicksRecursively($neighbor);
-                }
             }
         }
     }
