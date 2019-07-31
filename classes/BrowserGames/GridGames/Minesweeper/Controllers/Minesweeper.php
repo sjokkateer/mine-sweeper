@@ -30,7 +30,7 @@ class Minesweeper
 
     public function cellClicked(): array
     {
-        $game = $_SESSION['minesweeper'];
+        $game = $_SESSION[self::GAME_NAME];
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];
@@ -41,13 +41,13 @@ class Minesweeper
 
     public function newGame()
     {
-        unset($_SESSION['minesweeper']);
+        unset($_SESSION[self::GAME_NAME]);
         return $this->home();
     }
 
     public function setFlag()
     {
-        $game = $_SESSION['minesweeper'];
+        $game = $_SESSION[self::GAME_NAME];
         if (!$game->isGameOver()) {
             $row = $_POST['row'];
             $column = $_POST['column'];
