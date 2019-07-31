@@ -17,16 +17,19 @@ class MinesweeperCellTest extends TestCase
     /**
      * @dataProvider minesCountProvider
      */
-    public function testMinesCount(int $numberOfMines, $expected)
+    public function testMinesCount(int $numberOfIncrements, $expected)
     {
         $cell = new MinesweeperCell(0, 0);
-        if ($numberOfMines < 0) {
-            $this->expectException($expected);
-            $cell->setMinesCount($numberOfMines);
-        } else {
-            $cell->setMinesCount($numberOfMines);
-            $this->assertSame($expected, $cell->getMinesCount());
+        for($i = 0; $i < $numberOfIncrements; $i++) {
+            $cell->incrementMinesCount();
         }
+
+        if ($numberOfIncrements > 0) {
+            $this->assertSame($cell->getMinesCount(), $numberOfIncrements);
+        } else {
+            $this->assertSame($cell->getMinesCount(), 0);
+        }
+        
     }
 
     public function testFlagCell()
@@ -54,7 +57,7 @@ class MinesweeperCellTest extends TestCase
     {
         return [
             [0, 0],
-            [-1, InvalidMinesCountException::class],
+            [-1, 0],
             [5, 5],  
         ];
     }
