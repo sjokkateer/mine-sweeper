@@ -195,10 +195,8 @@ class MinesweeperGame extends AbstractGridGame
     public function setFlagged(int $row, int $column, bool $flagged)
     {
         $cell = $this->getCell($row, $column);
-        if ($flagged) {
-            if ($this->flagsLeft() > 0) {
+        if ($flagged && $this->flagsLeft() > 0) {
                 $cell->setFlagged($flagged);
-            }
         } else {
             $cell->setFlagged($flagged);
         }
