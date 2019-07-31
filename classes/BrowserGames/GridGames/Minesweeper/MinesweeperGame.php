@@ -15,17 +15,17 @@ class MinesweeperGame extends AbstractGridGame
         parent::__construct('Minesweeper', $difficulty, $rows, $columns);
         $this->gameOver = false;
         $this->generateMines();
-        $this->countMinesInNeighborhood();
+        $this->forEachCell('setNeighbors');
     }
 
     private function generateMines()
     {
-        $totalNumberOfMines = $this->getTotalNumberOfMines();
-        while ($totalNumberOfMines > 0) {
+        $requiredNumberOfMines = $this->getTotalNumberOfMines();
+        while ($requiredNumberOfMines > 0) {
             $cell = $this->getRandomCell();
-            if (!get_class($cell) === Mine::class) {
+            if (get_class($cell) !== Mine::class) {
                 $this->changeCellToMine($cell);
-                $totalNumberOfMines--;
+                $requiredNumberOfMines--;
             }
         }
     }
@@ -57,12 +57,11 @@ class MinesweeperGame extends AbstractGridGame
         $this->setCell($row, $column, $mine);
     }
 
-    private function countMinesInNeighborhood()
+    private function forEachCell(string $method)
     {
         foreach ($this->grid as $row) {
             foreach ($row as $cell) {
-                $this->setNeighbors($cell);
-                $this->countMines($cell);
+                $this->{$method}($cell);
             }
         }
     }
@@ -80,18 +79,25 @@ class MinesweeperGame extends AbstractGridGame
 
     private function setNeighbors(MinesweeperCell $cell)
     {
-        $rowIndex = $cell->getRow();
-        $columnIndex = $cell->getColumn();
-        for ($i = -1; $i <= 1; $i++) {
-            for ($j = -1; $j <= 1; $j++) {
-                $row = $rowIndex + $i;
-                $column =  $columnIndex + $j;
-                if ($this->indexInGrid($row, $column)) {
-                    $neighbor = $this->getCell($row, $column);
+        for ($rowOffset = -1; $rowOffset <= 1; $rowOffset++) {
+            for ($columnOffset = -1; $columnOffset <= 1; $columnOffset++) {
+                $neighbor = $this->getNeighbor($cell, $rowOffset, $columnOffset);
+                if ($neighbor !== null) {
                     $cell->addNeighbor($neighbor);
-                }
+                } 
             }
         }
+    }
+
+    private function getNeighbor(MinesweeperCell $cell, int $rowOffset, int $columnOffset)
+    {
+        $rowIndex = $cell->getRow();
+        $columnIndex = $cell->getColumn();
+
+        $neighborRowIndex = $rowIndex + $rowOffset;
+        $neighborColumnIndex =  $columnIndex + $columnOffset;
+
+        return $this->getCell($neighborRowIndex, $neighborColumnIndex);
     }
 
     protected function initializeGrid()
@@ -102,27 +108,6 @@ class MinesweeperGame extends AbstractGridGame
                 $this->setCell($i, $j, $cell);
             }
         }
-    }
-
-    private function indexInGrid(int $row, int $column): bool
-    {
-        return $this->rowInGrid($row) && $this->columnInGrid($column);
-    }
-
-    private function columnInGrid(int $column): bool
-    {
-        $minIndex = 0;
-        $maxIndex = $this->getColumns() - 1;
-        
-        return $minIndex <= $column && $column <= $maxIndex;
-    }
-
-    private function rowInGrid(int $row): bool
-    {
-        $minIndex = 0;
-        $maxIndex = $this->getRows() - 1;
-        
-        return $minIndex <= $row && $row <= $maxIndex;
     }
 
     public function outputCells()

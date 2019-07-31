@@ -55,7 +55,9 @@ class MinesweeperCell extends Cell
 
     public function addNeighbor(MinesweeperCell $cell)
     {
-        $this->neighbors[] = $cell;
+        if ($cell !== null) {
+            $this->neighbors[] = $cell;
+        }
     }
 
     public function __toString(): string
