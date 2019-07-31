@@ -16,7 +16,6 @@ abstract class AbstractGame
 
     abstract public function isWon(): bool;
     
-    
     public function getDifficulty(): Difficulty
     {
         return $this->difficulty;

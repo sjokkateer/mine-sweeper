@@ -32,12 +32,15 @@ class EntryPoint
         }
     }
 
-    private function loadTemplate(string $templateFile, array $variables = [])
+    public function run()
     {
-        extract($variables);
-        ob_start();
-        include __DIR__ . "/../../templates/$templateFile";
-        return ob_get_clean();
+        $page = $this->routes->callAction($this->route);
+
+        $header = $this->loadTemplateFromVariable($page, 'header.html.php');
+        $output = $this->loadTemplateFromVariable($page, $page['template']);
+        $footer = $this->loadTemplateFromVariable($page, 'footer.html.php');
+
+        include __DIR__ . '/../../templates/layout.html.php';
     }
 
     private function loadTemplateFromVariable($page, string $templateFile, string $variable = 'variables')
@@ -49,14 +52,11 @@ class EntryPoint
         }
     }
 
-    public function run()
+    private function loadTemplate(string $templateFile, array $variables = [])
     {
-        $page = $this->routes->callAction($this->route);
-
-        $header = $this->loadTemplateFromVariable($page, 'header.html.php');
-        $output = $this->loadTemplateFromVariable($page, $page['template']);
-        $footer = $this->loadTemplateFromVariable($page, 'footer.html.php');
-
-        include __DIR__ . '/../../templates/layout.html.php';
+        extract($variables);
+        ob_start();
+        include __DIR__ . "/../../templates/$templateFile";
+        return ob_get_clean();
     }
 }
