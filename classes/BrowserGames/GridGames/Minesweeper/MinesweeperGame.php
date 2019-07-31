@@ -20,6 +20,7 @@ class MinesweeperGame extends AbstractGridGame
 
     protected function initializeGrid()
     {
+        $this->grid = [];
         $this->generateCells();
         $this->generateMines();
         $this->setNeighbors();
