@@ -4,15 +4,14 @@ namespace BrowserGames\GridGames;
 
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 
-use Generics\Cell;
 use Generics\AbstractGame;
-use Generics\Difficulty;
 
 abstract class AbstractGridGame extends AbstractGame
 {
-    private $columns;
-    protected $grid;
-    private $rows;
+    private int $rows;
+    private int $columns;
+
+    protected array $grid;
 
     public function __construct(string $name, GridGameDifficulty $difficulty, int $rows, int $columns)
     {
@@ -23,6 +22,10 @@ abstract class AbstractGridGame extends AbstractGame
 
         $this->initializeGrid();
     }
+
+    abstract protected function initializeGrid();
+    abstract protected function addCell(int $row, int $column);
+    abstract public function getCell(int $row, int $column);
 
     public function getRows(): int
     {
@@ -59,10 +62,4 @@ abstract class AbstractGridGame extends AbstractGame
     {
         return $this->getCell($row, $column)->getValue();
     }
-
-    abstract protected function initializeGrid();
-
-    abstract protected function addCell(int $row, int $column);
-
-    abstract public function getCell(int $row, int $column);
 }

@@ -1,5 +1,11 @@
 <?php $game = $_SESSION['minesweeper']; ?>
 <form action="?route=minesweeper/newgame" method="POST">
+    <label for="difficulty">Difficulty:</label>
+    <select name="difficulty" id="difficulty">
+        <option value="beginner" <?= strtolower($game->getDifficulty()->getName()) === 'beginner' ? 'selected' : '' ?>>Beginner</option>
+        <option value="intermediate" <?= strtolower($game->getDifficulty()->getName()) === 'intermediate' ? 'selected' : '' ?>>Intermediate</option>
+        <option value="expert" <?= strtolower($game->getDifficulty()->getName()) === 'expert' ? 'selected' : '' ?>>Expert</option>
+    </select>
     <input type="submit" value="New Game">
 </form>
 <br />
@@ -8,42 +14,42 @@
     <div>
         <h3># of Flags Left: <?= $game->flagsLeft() ?></h3>
     </div>
-    <?php if($game->isWon()): ?>
+    <?php if ($game->isWon()) : ?>
         <div style="color: green;">
-            <h4>Good Job, You Won!</h4>         
+            <h4>Good Job, You Won!</h4>
         </div>
     <?php endif; ?>
-    <?php if($game->isGameOver()): ?>
+    <?php if ($game->isGameOver()) : ?>
         <div style="color: red;">
-            <h4>You Lost!</h4>      
+            <h4>You Lost!</h4>
         </div>
     <?php endif; ?>
     <div id="mineSweeperGridDiv">
         <table id="mineSweeper">
-            <?php for($i = 0; $i < $game->getRows(); $i++): ?>
-                <tr id="<?= $i ?>">    
-                <?php for($j = 0; $j < $game->getColumns(); $j++): ?>
-                <td>
-                    <form action="?route=minesweeper/home" method="POST">
-                        <input type="hidden" name="row" value="<?= $i ?>">
-                        <input type="hidden" name="column" value="<?= $j ?>">
-                        <input type="hidden" name="flagged" value="<?= $game->isFlagged($i, $j) ?>">
-                        <?php if($game->isGameOver() || $game->isClicked($i, $j)): ?>
-                            <?php if($game->isGameOver() && $game->isFatalMine($i, $j)): ?>
-                                <input style="background: red;" disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
-                            <?php else: ?>
-                                <input disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
-                            <?php endif; ?>
-                        <?php else: ?>
-                            <?php if($game->isFlagged($i, $j)): ?>
-                                <input class="mineSweeperCell" type="submit" value="-">
-                            <?php else: ?>
-                                <input class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
-                            <?php endif; ?>    
-                        <?php endif; ?>
-                    </form>
-                </td>
-                <?php endfor; ?>
+            <?php for ($i = 0; $i < $game->getRows(); $i++) : ?>
+                <tr id="<?= $i ?>">
+                    <?php for ($j = 0; $j < $game->getColumns(); $j++) : ?>
+                        <td>
+                            <form action="?route=minesweeper/home" method="POST">
+                                <input type="hidden" name="row" value="<?= $i ?>">
+                                <input type="hidden" name="column" value="<?= $j ?>">
+                                <input type="hidden" name="flagged" value="<?= $game->isFlagged($i, $j) ?>">
+                                <?php if ($game->isGameOver() || $game->isClicked($i, $j)) : ?>
+                                    <?php if ($game->isGameOver() && $game->isFatalMine($i, $j)) : ?>
+                                        <input style="background: red;" disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
+                                    <?php else : ?>
+                                        <input disabled class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
+                                    <?php endif; ?>
+                                <?php else : ?>
+                                    <?php if ($game->isFlagged($i, $j)) : ?>
+                                        <input class="mineSweeperCell" type="submit" value="-">
+                                    <?php else : ?>
+                                        <input class="mineSweeperCell" type="submit" value="<?= $game->getCell($i, $j) ?>">
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </form>
+                        </td>
+                    <?php endfor; ?>
                 </tr>
             <?php endfor; ?>
         </table>

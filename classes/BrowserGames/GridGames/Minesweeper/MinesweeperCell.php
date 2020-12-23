@@ -6,14 +6,15 @@ use Generics\Cell;
 
 class MinesweeperCell extends Cell
 {
-    private $clicked;
-    private $flagged;
-    private $minesCount;
-    private $neighbors;
+    private bool $clicked;
+    private bool $flagged;
+    private int $minesCount;
+    private array $neighbors;
 
     public function __construct(int $row, int $column)
     {
         parent::__construct($row, $column, false);
+
         $this->clicked = false;
         $this->flagged = false;
         $this->minesCount = 0;
@@ -107,6 +108,7 @@ class MinesweeperCell extends Cell
                 $result = $this->getMinesCount();
             }
         }
+
         return $result;
     }
 }

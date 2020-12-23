@@ -1,12 +1,13 @@
 <?php
+
 namespace Generics;
 
 use Generics\Routes;
 
 class EntryPoint
 {
-    private $route;
-    private $routes;
+    private string $route;
+    private Routes $routes;
 
     public function __construct(string $route, Routes $routes)
     {

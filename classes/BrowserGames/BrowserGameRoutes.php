@@ -1,11 +1,12 @@
 <?php
+
 namespace BrowserGames;
 
 use Generics\Routes;
 
 class BrowserGameRoutes implements Routes
 {
-    private const HOME ='?route=sudoku/home';
+    private const HOME = '?route=minesweeper/home';
     private const ROUTES = [
         'minesweeper/home' => [
             'GET' => [
@@ -29,22 +30,22 @@ class BrowserGameRoutes implements Routes
                 'action' => 'setFlag',
             ],
         ],
-        'sudoku/home' => [
-            'GET' => [
-                'controller' => 'Sudoku',
-                'action' => 'home',
-            ],
-            'POST' => [
-                'controller' => 'Sudoku',
-                'action' => 'checkSolution',
-            ],
-        ],
+        // 'sudoku/home' => [
+        //     'GET' => [
+        //         'controller' => 'Sudoku',
+        //         'action' => 'home',
+        //     ],
+        //     'POST' => [
+        //         'controller' => 'Sudoku',
+        //         'action' => 'checkSolution',
+        //     ],
+        // ],
     ];
 
     public function callAction(string $route): array
     {
         $page = [];
-        switch($route) {
+        switch ($route) {
             case 'minesweeper/home':
                 $namespace = 'BrowserGames\GridGames\Minesweeper\Controllers\\';
                 session_start();
@@ -82,11 +83,15 @@ class BrowserGameRoutes implements Routes
     private function handleAction(string $route, string $namespace)
     {
         $routes = $this->getRoutes();
+
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $requestedAction = $routes["$route"]["$requestMethod"];
+
         $controller =  $namespace . $requestedAction['controller'];
         $controller = new $controller();
+
         $action = $requestedAction['action'];
+
         return $controller->$action();
     }
 }

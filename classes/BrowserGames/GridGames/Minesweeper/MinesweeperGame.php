@@ -5,6 +5,7 @@ namespace BrowserGames\GridGames\Minesweeper;
 use BrowserGames\GridGames\AbstractGridGame;
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
 use BrowserGames\GridGames\Minesweeper\MinesweeperCell;
+use Exception;
 
 class MinesweeperGame extends AbstractGridGame
 {
@@ -21,6 +22,8 @@ class MinesweeperGame extends AbstractGridGame
 
     protected function initializeGrid(): void
     {
+        // Is the array of the parent class that tracks
+        // 
         $this->grid = [];
         $this->generateCells();
         $this->generateMines();
@@ -40,6 +43,7 @@ class MinesweeperGame extends AbstractGridGame
     public function addCell(int $row, int $column): void
     {
         $cell = $this->getCell($row, $column);
+
         if ($cell === null) {
             $this->grid[] = new MinesweeperCell($row, $column);
         }
@@ -48,6 +52,7 @@ class MinesweeperGame extends AbstractGridGame
     private function generateMines(): void
     {
         $requiredNumberOfMines = $this->getTotalNumberOfMines();
+
         while (count($this->mines) < $requiredNumberOfMines) {
             $this->generateRandomMine();
         }
@@ -103,6 +108,7 @@ class MinesweeperGame extends AbstractGridGame
         for ($rowOffset = -1; $rowOffset <= 1; $rowOffset++) {
             for ($columnOffset = -1; $columnOffset <= 1; $columnOffset++) {
                 $neighbor = $this->getExistingNeighbor($cell, $rowOffset, $columnOffset);
+
                 if ($neighbor !== null && $neighbor !== $cell) {
                     $cell->addNeighbor($neighbor);
                 }
@@ -135,6 +141,7 @@ class MinesweeperGame extends AbstractGridGame
         $cell = $this->getCell($row, $column);
         if (!$cell->isFlagged()) {
             $cell->setClicked();
+
             if ($cell->isMine()) {
                 $this->endGame($cell);
             } else {
@@ -154,6 +161,7 @@ class MinesweeperGame extends AbstractGridGame
     {
         $cell->setClicked();
         $cell->setFlagged(false);
+
         if ($cell->getMinesCount() === 0) {
             foreach ($cell->getNeighbors() as $neighbor) {
                 if (!$neighbor->isClicked()) {
@@ -228,6 +236,31 @@ class MinesweeperGame extends AbstractGridGame
     public function isFatalMine(int $row, int $column): bool
     {
         return $this->fatalMine->getRow() == $row && $this->fatalMine->getColumn() == $column;
+    }
+
+    public static function create(string $difficulty): self
+    {
+        switch ($difficulty) {
+            case GridGameDifficulty::BEGINNER:
+                $diff = new GridGameDifficulty($difficulty, 10);
+                $rows = 9;
+                $columns = 9;
+                break;
+            case GridGameDifficulty::INTERMEDIATE:
+                $diff = new GridGameDifficulty($difficulty, 40);
+                $rows = 16;
+                $columns = 16;
+                break;
+            case GridGameDifficulty::EXPERT:
+                $diff = new GridGameDifficulty($difficulty, 99);
+                $rows = 16;
+                $columns = 30;
+                break;
+            default:
+                throw new Exception("Uknown difficulty received: $difficulty");
+        }
+
+        return new static($diff, $rows, $columns);
     }
 
     public function printMines(): void
