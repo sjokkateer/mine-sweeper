@@ -1,4 +1,5 @@
 <?php
+
 use Generics\EntryPoint;
 use BrowserGames\BrowserGameRoutes;
 

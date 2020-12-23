@@ -1,4 +1,5 @@
 <?php
+
 namespace BrowserGames\GridGames\Minesweeper;
 
 use Generics\Cell;
@@ -21,7 +22,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Get the value of minesCount
-     */ 
+     */
     public function getMinesCount(): int
     {
         return $this->minesCount;
@@ -29,7 +30,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Set the value of minesCount
-     */ 
+     */
     public function incrementMinesCount()
     {
         $this->minesCount++;
@@ -37,7 +38,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Get the value of clicked
-     */ 
+     */
     public function isClicked(): bool
     {
         return $this->clicked;
@@ -45,7 +46,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Set the value of clicked
-     */ 
+     */
     public function setClicked()
     {
         $this->clicked = true;
@@ -58,7 +59,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Set the value of value to true
-     */ 
+     */
     public function setMine()
     {
         $this->setValue(true);
@@ -74,7 +75,7 @@ class MinesweeperCell extends Cell
 
     /**
      * Get the value of neighbors
-     */ 
+     */
     public function getNeighbors()
     {
         return $this->neighbors;
@@ -82,15 +83,15 @@ class MinesweeperCell extends Cell
 
     /**
      * Get the value of flagged
-     */ 
-    public function isFlagged()
+     */
+    public function isFlagged(): bool
     {
         return $this->flagged;
     }
 
     /**
      * Set the value of flagged
-     */ 
+     */
     public function setFlagged(bool $flagged)
     {
         $this->flagged = $flagged;
@@ -102,8 +103,7 @@ class MinesweeperCell extends Cell
         if ($this->isClicked()) {
             if ($this->isMine()) {
                 $result = '*';
-            }
-            elseif ($this->getMinesCount() > 0) {
+            } elseif ($this->getMinesCount() > 0) {
                 $result = $this->getMinesCount();
             }
         }

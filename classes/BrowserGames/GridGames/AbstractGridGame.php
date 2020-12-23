@@ -1,4 +1,5 @@
 <?php
+
 namespace BrowserGames\GridGames;
 
 use BrowserGames\GridGames\Difficulty\GridGameDifficulty;
@@ -19,7 +20,7 @@ abstract class AbstractGridGame extends AbstractGame
 
         $this->rows = $rows;
         $this->columns = $columns;
-        
+
         $this->initializeGrid();
     }
 
@@ -42,7 +43,7 @@ abstract class AbstractGridGame extends AbstractGame
     {
         $minIndex = 0;
         $maxIndex = $this->getColumns() - 1;
-        
+
         return $minIndex <= $column && $column <= $maxIndex;
     }
 
@@ -50,7 +51,7 @@ abstract class AbstractGridGame extends AbstractGame
     {
         $minIndex = 0;
         $maxIndex = $this->getRows() - 1;
-        
+
         return $minIndex <= $row && $row <= $maxIndex;
     }
 

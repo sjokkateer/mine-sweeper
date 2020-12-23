@@ -1,4 +1,5 @@
 <?php
+
 namespace BrowserGames\GridGames\Sudoku;
 
 use BrowserGames\GridGames\AbstractGridGame;
@@ -64,7 +65,7 @@ class SudokuGame extends AbstractGridGame
         $column = $cell->getColumn();
 
         return $this->valueIsAllowedInRowAndColumn($row, $column, $value) &&
-                    $this->valueIsAllowedInQuadrant($cell, $value);
+            $this->valueIsAllowedInQuadrant($cell, $value);
     }
 
     public function isWon(): bool
@@ -76,7 +77,7 @@ class SudokuGame extends AbstractGridGame
     {
         // Since Sudokus have a fixed dimension and are square grids.
         $maxIndex = $this->getRows();
-        for($i = 0; $i < $maxIndex; $i++) {
+        for ($i = 0; $i < $maxIndex; $i++) {
             $currentRowCell = $this->getCell($row, $i);
             $currentColumnCell = $this->getCell($i, $column);
             // Should add a check to skip the given cell later on.
@@ -95,7 +96,7 @@ class SudokuGame extends AbstractGridGame
         $quadrantColumn = $quadrantIndex->getColumn();
         $quadrant = $this->quadrants[$quadrantRow][$quadrantColumn];
         // Iterate over all cells in the quadrant except for the cell itself.
-        foreach($quadrant as $cell) {
+        foreach ($quadrant as $cell) {
             if ($cell->getValue() == $value) {
                 return false;
             }
@@ -103,6 +104,13 @@ class SudokuGame extends AbstractGridGame
         return true;
     }
 
+    protected function addCell(int $row, int $column)
+    {
+    }
+
+    public function getCell(int $row, int $column)
+    {
+    }
 
     public function setValue(int $row, int $column, int $value)
     {
@@ -116,7 +124,7 @@ class SudokuGame extends AbstractGridGame
     {
         $columnCount = 0;
         $rowCount = 0;
-        foreach($this->grid as $row) {
+        foreach ($this->grid as $row) {
             foreach ($row as $cell) {
                 echo $cell->getQuadrantIndex() . ' ';
                 $columnCount++;
